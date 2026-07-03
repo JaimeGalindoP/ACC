@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Costos Invisibles — ACC Internacional</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:   #0A1628;
+    --blue:   #142E6E;
+    --teal:   #0C5C47;
+    --gold:   #C49A2B;
+    --gold-l: #E8C46A;
+    --coral:  #B83A22;
+    --ivory:  #F5F1E8;
+    --warm:   #EDE5D4;
+    --text:   #1A1510;
+    --muted:  #6B6356;
+    --white:  #FFFFFF;
+
+    --d1: #142E6E;   /* rotación   */
+    --d2: #8B2252;   /* burnout     */
+    --d3: #0C5C47;   /* compromiso  */
+    --d4: #6B3A00;   /* talento     */
+    --d5: #1A3A3A;   /* marca       */
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--ivory);
+    color: var(--text);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* ── PORTADA ── */
+  .cover {
+    background: var(--navy);
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .cover-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(196,154,43,0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(196,154,43,0.08) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  .cover-accent {
+    position: absolute;
+    bottom: -80px; right: -80px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(196,154,43,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cover-top {
+    padding: 40px 56px 0;
+    display: flex; justify-content: space-between; align-items: center;
+    position: relative; z-index: 1;
+  }
+
+  .cover-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; font-weight: 700; letter-spacing: 3px;
+    color: var(--gold); text-transform: uppercase;
+  }
+
+  .cover-badge {
+    border: 1px solid rgba(196,154,43,0.4);
+    padding: 6px 14px; border-radius: 2px;
+    font-size: 10px; font-weight: 600; letter-spacing: 2px;
+    color: var(--gold); text-transform: uppercase;
+  }
+
+  .cover-body {
+    padding: 56px 56px 40px;
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+
+  .cover-eyebrow {
+    font-size: 11px; font-weight: 600; letter-spacing: 4px;
+    color: var(--gold); text-transform: uppercase;
+    margin-bottom: 24px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .cover-eyebrow::before {
+    content: ''; display: block; width: 32px; height: 1px;
+    background: var(--gold);
+  }
+
+  .cover-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(48px, 8vw, 78px);
+    font-weight: 700; color: var(--white);
+    line-height: 1.0; margin-bottom: 8px;
+  }
+
+  .cover-title .accent { color: var(--gold-l); font-style: italic; }
+
+  .cover-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(22px, 3.5vw, 34px);
+    color: rgba(255,255,255,0.55);
+    font-style: italic; margin-bottom: 40px;
+    line-height: 1.3;
+  }
+
+  .cover-divider {
+    width: 64px; height: 2px;
+    background: var(--gold); margin-bottom: 32px;
+  }
+
+  .cover-desc {
+    font-size: 15px; line-height: 1.8;
+    color: rgba(255,255,255,0.65);
+    max-width: 560px; margin-bottom: 48px;
+  }
+
+  .cover-dims {
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .cover-dim-tag {
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 6px 14px; border-radius: 2px;
+    font-size: 11px; font-weight: 600; letter-spacing: 1px;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+  }
+
+  .cover-bottom {
+    padding: 0 56px 40px;
+    position: relative; z-index: 1;
+    display: flex; justify-content: space-between; align-items: flex-end;
+  }
+  .cover-callout {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; font-style: italic;
+    color: rgba(255,255,255,0.4);
+    max-width: 360px; line-height: 1.5;
+  }
+  .cover-url {
+    font-size: 11px; font-weight: 600; letter-spacing: 2px;
+    color: var(--gold); text-transform: uppercase;
+    text-align: right;
+  }
+
+  /* ── INTRO ── */
+  .intro-section {
+    background: var(--blue);
+    padding: 64px 56px;
+    position: relative; overflow: hidden;
+  }
+  .intro-section::before {
+    content: '"';
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 320px; font-weight: 700;
+    color: rgba(255,255,255,0.04);
+    position: absolute; top: -60px; left: 30px;
+    line-height: 1; pointer-events: none;
+  }
+  .intro-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(22px,3.5vw,32px);
+    font-style: italic; color: var(--white);
+    line-height: 1.45; margin-bottom: 24px;
+    position: relative; z-index: 1;
+    max-width: 680px;
+  }
+  .intro-body {
+    font-size: 15px; line-height: 1.8;
+    color: rgba(255,255,255,0.65);
+    max-width: 620px; position: relative; z-index: 1;
+  }
+
+  /* ── MAPA DE 5 DIMENSIONES ── */
+  .map-section {
+    background: var(--warm);
+    padding: 64px 56px;
+  }
+  .section-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::before { content:''; display:block; width:24px; height:1px; background:var(--gold); }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px,4vw,40px); font-weight: 700;
+    color: var(--navy); margin-bottom: 40px; line-height: 1.2;
+  }
+
+  .dims-row {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: 2px; margin-bottom: 0;
+  }
+
+  .dim-mini {
+    padding: 20px 16px;
+    display: flex; flex-direction: column; gap: 8px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .dim-mini:hover { transform: translateY(-3px); }
+
+  .dim-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px; font-weight: 700;
+    line-height: 1; opacity: 0.18;
+    color: var(--white);
+  }
+  .dim-icon-lg { font-size: 22px; margin-bottom: 4px; }
+  .dim-mini-name {
+    font-size: 11px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--white);
+    line-height: 1.3;
+  }
+  .dim-mini-hint {
+    font-size: 11px; color: rgba(255,255,255,0.65); line-height: 1.4;
+  }
+
+  /* ── DIMENSIONES DETALLE ── */
+  .dim-section {
+    padding: 72px 56px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    position: relative;
+  }
+
+  .dim-number-bg {
+    position: absolute;
+    top: 40px; right: 40px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 180px; font-weight: 700; line-height: 1;
+    opacity: 0.05; color: var(--text);
+    pointer-events: none;
+  }
+
+  .dim-header {
+    display: grid; grid-template-columns: auto 1fr;
+    gap: 20px; align-items: start;
+    margin-bottom: 36px;
+  }
+
+  .dim-num-badge {
+    width: 52px; height: 52px; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px; font-weight: 700; color: var(--white);
+    flex-shrink: 0;
+  }
+
+  .dim-title-group {}
+  .dim-tag {
+    font-size: 9px; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; margin-bottom: 4px;
+    opacity: 0.6;
+  }
+  .dim-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(24px,3.5vw,34px); font-weight: 700;
+    line-height: 1.1; color: var(--navy);
+  }
+
+  .dim-questions {
+    background: var(--warm);
+    border-left: 3px solid;
+    padding: 20px 24px; margin-bottom: 32px;
+    border-radius: 0 4px 4px 0;
+  }
+  .dim-q-label {
+    font-size: 9px; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .dim-q-item {
+    font-size: 14px; color: var(--text); line-height: 1.6;
+    padding: 5px 0;
+    display: flex; gap: 10px;
+  }
+  .dim-q-item::before {
+    content: '→'; color: var(--muted); flex-shrink: 0;
+    font-weight: 700;
+  }
+
+  /* Costos */
+  .costos-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px; margin-bottom: 32px;
+  }
+  .costo-box {
+    padding: 20px 22px;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 4px;
+    background: var(--white);
+  }
+  .costo-tipo {
+    font-size: 9px; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .costo-item {
+    font-size: 13px; color: var(--text); line-height: 1.7;
+    padding: 3px 0; display: flex; gap: 8px;
+  }
+  .costo-dot { color: var(--gold); flex-shrink: 0; font-weight: 700; }
+
+  /* Calculadora */
+  .calc-box {
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .calc-header {
+    padding: 14px 22px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .calc-header-icon { font-size: 16px; }
+  .calc-header-text {
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--white);
+  }
+  .calc-body { background: var(--white); padding: 22px; }
+
+  .calc-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .calc-field label {
+    display: block; font-size: 10px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
+  }
+  .calc-field input, .calc-field select {
+    width: 100%;
+    border: 1.5px solid #DDD8CE;
+    border-radius: 4px;
+    padding: 10px 12px;
+    font-size: 14px; font-family: 'Barlow', sans-serif;
+    color: var(--text); background: var(--ivory);
+    transition: border-color 0.2s;
+  }
+  .calc-field input:focus, .calc-field select:focus {
+    outline: none; border-color: var(--gold);
+  }
+
+  .calc-result {
+    border-radius: 4px;
+    padding: 16px 20px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .calc-result-label { font-size: 12px; font-weight: 600; color: var(--white); opacity: 0.85; }
+  .calc-result-value {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 28px; font-weight: 700; color: var(--white);
+    letter-spacing: -0.5px;
+  }
+
+  /* Ejemplo */
+  .ejemplo-box {
+    background: var(--ivory);
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 4px; padding: 20px 22px;
+  }
+  .ejemplo-label {
+    font-size: 9px; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 14px;
+  }
+  .ejemplo-row {
+    display: flex; justify-content: space-between;
+    padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,0.06);
+    font-size: 13px; color: var(--text);
+  }
+  .ejemplo-row:last-of-type { border-bottom: none; }
+  .ejemplo-row span:last-child { font-weight: 600; }
+  .ejemplo-total {
+    display: flex; justify-content: space-between;
+    padding: 12px 0 0;
+    font-size: 15px; font-weight: 700; color: var(--navy);
+    border-top: 2px solid rgba(0,0,0,0.12);
+    margin-top: 8px;
+  }
+
+  /* referencia */
+  .ref-box {
+    background: var(--warm);
+    border-radius: 4px; padding: 14px 18px;
+    margin-bottom: 0;
+    display: flex; gap: 10px; align-items: flex-start;
+    font-size: 12px; color: var(--muted); line-height: 1.6;
+  }
+  .ref-icon { flex-shrink: 0; }
+
+  /* ── PLANTILLA RESUMEN ── */
+  .resumen-section {
+    background: var(--navy); padding: 72px 56px;
+  }
+  .resumen-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px,4vw,40px); font-weight: 700;
+    color: var(--white); margin-bottom: 8px;
+  }
+  .resumen-sub {
+    font-size: 14px; color: rgba(255,255,255,0.5);
+    margin-bottom: 36px;
+  }
+
+  .resumen-table { width: 100%; border-collapse: collapse; }
+  .resumen-table thead th {
+    background: rgba(255,255,255,0.06);
+    font-size: 9px; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; color: rgba(255,255,255,0.5);
+    padding: 12px 16px; text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .resumen-table tbody td {
+    padding: 14px 16px; font-size: 13px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    vertical-align: top; color: rgba(255,255,255,0.8);
+    line-height: 1.5;
+  }
+  .resumen-table tbody tr:last-child td { border-bottom: none; }
+  .resumen-table tbody tr:hover td { background: rgba(255,255,255,0.03); }
+  .td-dim { font-weight: 600; color: var(--white) !important; }
+  .td-formula {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px !important; letter-spacing: 0.3px;
+    color: var(--gold-l) !important;
+    white-space: pre-line;
+  }
+  .resumen-total-row {
+    background: var(--gold) !important;
+    border-radius: 3px;
+  }
+  .resumen-total-row td {
+    color: var(--navy) !important;
+    font-weight: 700 !important;
+    font-size: 15px !important;
+  }
+
+  /* ── CIERRE ── */
+  .cierre-section {
+    background: var(--ivory);
+    padding: 64px 56px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+    align-items: center;
+  }
+  .cierre-left {}
+  .cierre-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(22px,3vw,30px); font-style: italic;
+    color: var(--navy); line-height: 1.45;
+    margin-bottom: 24px;
+  }
+  .cierre-body {
+    font-size: 14px; line-height: 1.8; color: var(--muted);
+    margin-bottom: 28px;
+  }
+  .cta-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--navy); color: var(--white);
+    font-size: 12px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; text-decoration: none;
+    padding: 14px 24px; border-radius: 2px;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .cta-primary:hover { background: var(--blue); transform: translateY(-1px); }
+
+  .cierre-right {
+    background: var(--navy);
+    border-radius: 6px; padding: 36px;
+  }
+  .cierre-right-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 700; color: var(--white);
+    margin-bottom: 20px;
+  }
+  .cierre-item {
+    display: flex; gap: 12px; padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    font-size: 13px; color: rgba(255,255,255,0.75);
+    line-height: 1.5;
+  }
+  .cierre-item:last-child { border-bottom: none; }
+  .cierre-arrow { color: var(--gold); flex-shrink: 0; font-weight: 700; }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--navy);
+    padding: 28px 56px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid rgba(196,154,43,0.3);
+  }
+  .footer-brand {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px; font-weight: 700; letter-spacing: 2px;
+    color: var(--gold); text-transform: uppercase;
+  }
+  .footer-contact {
+    font-size: 12px; color: rgba(255,255,255,0.4);
+    text-align: right; line-height: 1.6;
+  }
+
+  /* ── TOTAL ACUMULADO ── */
+  .total-section {
+    background: var(--gold);
+    padding: 48px 56px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .total-left {}
+  .total-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--navy); opacity: 0.6;
+    margin-bottom: 6px;
+  }
+  .total-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px; font-weight: 700; color: var(--navy);
+    line-height: 1.2;
+  }
+  .total-right {}
+  .total-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px; font-weight: 700; color: var(--navy);
+    line-height: 1;
+    text-align: right;
+  }
+  .total-sub {
+    font-size: 12px; color: rgba(10,22,40,0.6);
+    text-align: right; margin-top: 4px;
+  }
+
+  /* PRINT */
+  @media print {
+    body { max-width: none; }
+    .calc-box, .calc-inputs { break-inside: avoid; }
+    .dim-section { break-inside: avoid; page-break-before: always; }
+    .dim-section:first-of-type { page-break-before: auto; }
+  }
+
+  /* Animations */
+  @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+  .fade-up { animation: fadeUp 0.6s ease both; }
+</style>
+</head>
+<body>
+
+<!-- ══ PORTADA ══ -->
+<div class="cover">
+  <div class="cover-grid"></div>
+  <div class="cover-accent"></div>
+
+  <div class="cover-top">
+    <div class="cover-logo">Academia de Crecimiento Consciente · ACC Internacional</div>
+    <div class="cover-badge">Guía Gratuita</div>
+  </div>
+
+  <div class="cover-body">
+    <div class="cover-eyebrow">Para Directores de Talento Humano</div>
+    <h1 class="cover-title">
+      Los Costos<br>
+      <span class="accent">Invisibles</span><br>
+      de su Empresa
+    </h1>
+    <div class="cover-subtitle">Lo que no se mide, silenciosamente se pierde</div>
+    <div class="cover-divider"></div>
+    <p class="cover-desc">
+      Cada año, las organizaciones pierden millones de pesos en costos que no aparecen en los estados financieros pero que erosionan la rentabilidad, la cultura y el talento. Este modelo le permite cuantificarlos, visualizarlos y justificar inversiones en bienestar con datos reales.
+    </p>
+    <div class="cover-dims">
+      <div class="cover-dim-tag">Rotación</div>
+      <div class="cover-dim-tag">Burnout</div>
+      <div class="cover-dim-tag">Desconexión</div>
+      <div class="cover-dim-tag">Fuga de Talento</div>
+      <div class="cover-dim-tag">Marca Empleadora</div>
+    </div>
+  </div>
+
+  <div class="cover-bottom">
+    <div class="cover-callout">"Lo que no se mide no se gestiona.<br>Lo que no se gestiona no se transforma."</div>
+    <div class="cover-url">accinternacional.com</div>
+  </div>
+</div>
+
+<!-- ══ INTRO ══ -->
+<div class="intro-section">
+  <p class="intro-quote">
+    "Los grandes desafíos organizacionales no siempre vienen disfrazados de crisis visibles. Muchas veces se esconden en lo que no se mide, no se conversa y no se prioriza."
+  </p>
+  <p class="intro-body">
+    Este modelo le permite poner cifras concretas a lo que normalmente se considera "blando": rotación, agotamiento, desconexión emocional, pérdida de conocimiento y debilitamiento de la marca empleadora. Con estos datos, la conversación con la gerencia cambia. Ya no es una percepción — es evidencia.
+  </p>
+</div>
+
+<!-- ══ MAPA DIMENSIONES ══ -->
+<div class="map-section">
+  <div class="section-label">El modelo</div>
+  <h2 class="section-title">5 dimensiones de costo<br>que nadie está viendo</h2>
+  <div class="dims-row">
+    <div class="dim-mini" style="background:var(--d1)">
+      <div class="dim-num">01</div>
+      <div class="dim-icon-lg">🔄</div>
+      <div class="dim-mini-name">Rotación de Personal</div>
+      <div class="dim-mini-hint">50%–200% del salario anual por cada salida</div>
+    </div>
+    <div class="dim-mini" style="background:var(--d2)">
+      <div class="dim-num">02</div>
+      <div class="dim-icon-lg">🔥</div>
+      <div class="dim-mini-name">Desgaste Emocional / Burnout</div>
+      <div class="dim-mini-hint">15%–35% de pérdida de productividad</div>
+    </div>
+    <div class="dim-mini" style="background:var(--d3)">
+      <div class="dim-num">03</div>
+      <div class="dim-icon-lg">💤</div>
+      <div class="dim-mini-name">Bajo Compromiso / Desconexión</div>
+      <div class="dim-mini-hint">18%–34% del salario en productividad perdida</div>
+    </div>
+    <div class="dim-mini" style="background:var(--d4)">
+      <div class="dim-num">04</div>
+      <div class="dim-icon-lg">🧠</div>
+      <div class="dim-mini-name">Fuga de Talento Clave</div>
+      <div class="dim-mini-hint">Meses de vacante + curva de aprendizaje + impacto operativo</div>
+    </div>
+    <div class="dim-mini" style="background:var(--d5)">
+      <div class="dim-num">05</div>
+      <div class="dim-icon-lg">📉</div>
+      <div class="dim-mini-name">Marca Empleadora Debilitada</div>
+      <div class="dim-mini-hint">Mayor costo y tiempo de atracción de talento</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- DIMENSIÓN 1 -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="dim-section" style="background:var(--white)">
+  <div class="dim-number-bg">01</div>
+
+  <div class="dim-header">
+    <div class="dim-num-badge" style="background:var(--d1)">01</div>
+    <div class="dim-title-group">
+      <div class="dim-tag" style="color:var(--d1)">Primera dimensión</div>
+      <h3 class="dim-title">Rotación de Personal</h3>
+    </div>
+  </div>
+
+  <div class="dim-questions" style="border-color:var(--d1)">
+    <div class="dim-q-label">Preguntas clave para su empresa</div>
+    <div class="dim-q-item">¿Cuántas personas se han ido en los últimos 12 meses?</div>
+    <div class="dim-q-item">¿Cuál es el costo real de reemplazar a cada una?</div>
+    <div class="dim-q-item">¿Qué áreas concentran la mayor rotación?</div>
+  </div>
+
+  <div class="costos-grid">
+    <div class="costo-box">
+      <div class="costo-tipo">Costos directos</div>
+      <div class="costo-item"><span class="costo-dot">·</span>Reclutamiento y publicación de vacantes</div>
+      <div class="costo-item"><span class="costo-dot">·</span>Capacitación y onboarding</div>
+      <div class="costo-item"><span class="costo-dot">·</span>Salarios durante la curva de aprendizaje</div>
+      <div class="costo-item"><span class="costo-dot">·</span>Honorarios externos (headhunting)</div>
+    </div>
+    <div class="costo-box">
+      <div class="costo-tipo">Costos indirectos</div>
+      <div class="costo-item"><span class="costo-dot">·</span>Pérdida de productividad (3–6 meses)</div>
+      <div class="costo-item"><span class="costo-dot">·</span>Fuga de conocimiento tácito</div>
+      <div class="costo-item"><span class="costo-dot">·</span>Impacto en clientes y resultados</div>
+      <div class="costo-item"><span class="costo-dot">·</span>Desmotivación y contagio en el equipo</div>
+    </div>
+  </div>
+
+  <div class="calc-box">
+    <div class="calc-header" style="background:var(--d1)">
+      <span class="calc-header-icon">🧮</span>
+      <span class="calc-header-text">Calcule el impacto en su empresa</span>
+    </div>
+    <div class="calc-body">
+      <div class="calc-inputs">
+        <div class="calc-field">
+          <label>Salidas en los últimos 12 meses</label>
+          <input type="number" id="r1-salidas" value="10" min="0" oninput="calcR1()">
+        </div>
+        <div class="calc-field">
+          <label>Salario mensual promedio (COP)</label>
+          <input type="number" id="r1-salario" value="3000000" min="0" oninput="calcR1()">
+        </div>
+        <div class="calc-field">
+          <label>% del salario anual como costo de reemplazo</label>
+          <select id="r1-pct" onchange="calcR1()">
+            <option value="0.5">50% — Cargos operativos</option>
+            <option value="1.0" selected>100% — Cargos medios</option>
+            <option value="1.5">150% — Cargos especializados</option>
+            <option value="2.0">200% — Cargos directivos</option>
+          </select>
+        </div>
+      </div>
+      <div class="calc-result" style="background:var(--d1)">
+        <div class="calc-result-label">Impacto estimado anual por rotación</div>
+        <div class="calc-result-value" id="r1-result">$360.000.000</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ejemplo-box">
+    <div class="ejemplo-label">Ejemplo de referencia</div>
+    <div class="ejemplo-row"><span>Salidas en el año</span><span>12 personas</span></div>
+    <div class="ejemplo-row"><span>Salario anual promedio</span><span>$36.000.000 COP</span></div>
+    <div class="ejemplo-row"><span>Costo de reemplazo estimado (50%)</span><span>$18.000.000 por persona</span></div>
+    <div class="ejemplo-total"><span>Impacto total</span><span>$216.000.000 COP</span></div>
+  </div>
+
+  <br>
+  <div class="ref-box">
+    <span class="ref-icon">📚</span>
+    <span>Según <strong>SHRM (2023)</strong>, el costo de reemplazar a un colaborador oscila entre el <strong>50% y 200% de su salario anual</strong>, dependiendo del nivel jerárquico y la criticidad del puesto.</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- DIMENSIÓN 2 -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="dim-section" style="background:var(--ivory)">
+  <div class="dim-number-bg">02</div>
+
+  <div class="dim-header">
+    <div class="dim-num-badge" style="background:var(--d2)">02</div>
+    <div class="dim-title-group">
+      <div class="dim-tag" style="color:var(--d2)">Segunda dimensión</div>
+      <h3 class="dim-title">Desgaste Emocional / Burnout</h3>
+    </div>
+  </div>
+
+  <div class="dim-questions" style="border-color:var(--d2)">
+    <div class="dim-q-label">Preguntas clave para su empresa</div>
+    <div class="dim-q-item">¿Se han reportado síntomas de agotamiento o estrés laboral?</div>
+    <div class="dim-q-item">¿Cuántas incapacidades o licencias por salud mental se han registrado?</div>
+    <div class="dim-q-item">¿Qué tan frecuentes son los errores por fatiga o distracción?</div>
+  </div>
+
+  <div class="calc-box">
+    <div class="calc-header" style="background:var(--d2)">
+      <span class="calc-header-icon">🧮</span>
+      <span class="calc-header-text">Calcule el impacto en su empresa</span>
+    </div>
+    <div class="calc-body">
+      <div class="calc-inputs">
+        <div class="calc-field">
+          <label>Personas afectadas por burnout / estrés</label>
+          <input type="number" id="r2-personas" value="15" min="0" oninput="calcR2()">
+        </div>
+        <div class="calc-field">
+          <label>Salario mensual promedio (COP)</label>
+          <input type="number" id="r2-salario" value="3000000" min="0" oninput="calcR2()">
+        </div>
+        <div class="calc-field">
+          <label>% estimado de pérdida de productividad</label>
+          <select id="r2-pct" onchange="calcR2()">
+            <option value="0.15">15% — Estrés leve</option>
+            <option value="0.25" selected>25% — Estrés moderado</option>
+            <option value="0.35">35% — Estrés severo / burnout</option>
+          </select>
+        </div>
+      </div>
+      <div class="calc-result" style="background:var(--d2)">
+        <div class="calc-result-label">Pérdida de valor productivo anual</div>
+        <div class="calc-result-value" id="r2-result">$135.000.000</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ejemplo-box">
+    <div class="ejemplo-label">Ejemplo de referencia</div>
+    <div class="ejemplo-row"><span>Colaboradores afectados</span><span>10 personas</span></div>
+    <div class="ejemplo-row"><span>Salario anual promedio</span><span>$36.000.000 COP</span></div>
+    <div class="ejemplo-row"><span>Pérdida de productividad estimada</span><span>25%</span></div>
+    <div class="ejemplo-total"><span>Impacto total</span><span>$90.000.000 COP</span></div>
+  </div>
+
+  <br>
+  <div class="ref-box">
+    <span class="ref-icon">📚</span>
+    <span>Según <strong>Harvard Business Review y Gallup</strong>, el estrés crónico reduce la productividad entre un <strong>15% y 35%</strong>. El burnout también incrementa el ausentismo y disminuye la capacidad de innovación y toma de decisiones.</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- DIMENSIÓN 3 -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="dim-section" style="background:var(--white)">
+  <div class="dim-number-bg">03</div>
+
+  <div class="dim-header">
+    <div class="dim-num-badge" style="background:var(--d3)">03</div>
+    <div class="dim-title-group">
+      <div class="dim-tag" style="color:var(--d3)">Tercera dimensión</div>
+      <h3 class="dim-title">Bajo Compromiso / Desconexión Emocional</h3>
+    </div>
+  </div>
+
+  <div class="dim-questions" style="border-color:var(--d3)">
+    <div class="dim-q-label">Preguntas clave para su empresa</div>
+    <div class="dim-q-item">¿Qué porcentaje del equipo participa activamente en iniciativas voluntarias?</div>
+    <div class="dim-q-item">¿Qué tan frecuente es el presentismo — estar pero no aportar?</div>
+    <div class="dim-q-item">¿Cuántos recomendarían la empresa como lugar para trabajar? (eNPS)</div>
+  </div>
+
+  <div class="calc-box">
+    <div class="calc-header" style="background:var(--d3)">
+      <span class="calc-header-icon">🧮</span>
+      <span class="calc-header-text">Calcule el impacto en su empresa</span>
+    </div>
+    <div class="calc-body">
+      <div class="calc-inputs">
+        <div class="calc-field">
+          <label>Total de colaboradores</label>
+          <input type="number" id="r3-total" value="100" min="0" oninput="calcR3()">
+        </div>
+        <div class="calc-field">
+          <label>Salario mensual promedio (COP)</label>
+          <input type="number" id="r3-salario" value="3000000" min="0" oninput="calcR3()">
+        </div>
+        <div class="calc-field">
+          <label>% Neutros (eNPS 7–8)</label>
+          <input type="number" id="r3-neutros" value="25" min="0" max="100" oninput="calcR3()">
+        </div>
+        <div class="calc-field">
+          <label>% Detractores (eNPS 0–6)</label>
+          <input type="number" id="r3-detractores" value="20" min="0" max="100" oninput="calcR3()">
+        </div>
+      </div>
+      <div class="calc-result" style="background:var(--d3)">
+        <div class="calc-result-label">Costo anual de la desconexión emocional</div>
+        <div class="calc-result-value" id="r3-result">$405.000.000</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ejemplo-box">
+    <div class="ejemplo-label">Ejemplo de referencia (Gallup 2023)</div>
+    <div class="ejemplo-row"><span>eNPS: 20% Neutros + 25% Detractores</span><span>45% desconectados</span></div>
+    <div class="ejemplo-row"><span>Pérdida estimada de productividad</span><span>25%</span></div>
+    <div class="ejemplo-row"><span>100 colaboradores · Salario anual $36M</span><span></span></div>
+    <div class="ejemplo-total"><span>Impacto total</span><span>$405.000.000 COP</span></div>
+  </div>
+
+  <br>
+  <div class="ref-box">
+    <span class="ref-icon">📚</span>
+    <span>Según <strong>Gallup (2023)</strong>, los empleados no comprometidos cuestan entre el <strong>18% y 34%</strong> de su salario anual en productividad perdida. Las empresas con mayor engagement tienen <strong>21% más rentabilidad</strong> y <strong>59% menos rotación</strong>.</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- DIMENSIÓN 4 -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="dim-section" style="background:var(--ivory)">
+  <div class="dim-number-bg">04</div>
+
+  <div class="dim-header">
+    <div class="dim-num-badge" style="background:var(--d4)">04</div>
+    <div class="dim-title-group">
+      <div class="dim-tag" style="color:var(--d4)">Cuarta dimensión</div>
+      <h3 class="dim-title">Fuga de Talento Clave y Conocimiento</h3>
+    </div>
+  </div>
+
+  <div class="dim-questions" style="border-color:var(--d4)">
+    <div class="dim-q-label">Preguntas clave para su empresa</div>
+    <div class="dim-q-item">¿Cuántas personas con conocimientos críticos se han ido?</div>
+    <div class="dim-q-item">¿Qué procesos se han visto afectados por esas salidas?</div>
+    <div class="dim-q-item">¿Cuánto tiempo toma recuperar ese conocimiento?</div>
+  </div>
+
+  <div class="calc-box">
+    <div class="calc-header" style="background:var(--d4)">
+      <span class="calc-header-icon">🧮</span>
+      <span class="calc-header-text">Calcule el impacto en su empresa</span>
+    </div>
+    <div class="calc-body">
+      <div class="calc-inputs">
+        <div class="calc-field">
+          <label>Personas clave que salieron</label>
+          <input type="number" id="r4-personas" value="3" min="0" oninput="calcR4()">
+        </div>
+        <div class="calc-field">
+          <label>Salario mensual (COP)</label>
+          <input type="number" id="r4-salario" value="4000000" min="0" oninput="calcR4()">
+        </div>
+        <div class="calc-field">
+          <label>Meses de vacante abierta promedio</label>
+          <input type="number" id="r4-vacante" value="2" min="0" oninput="calcR4()">
+        </div>
+        <div class="calc-field">
+          <label>Impacto operativo total estimado (COP)</label>
+          <input type="number" id="r4-operativo" value="20000000" min="0" oninput="calcR4()">
+        </div>
+      </div>
+      <div class="calc-result" style="background:var(--d4)">
+        <div class="calc-result-label">Impacto estimado por fuga de talento clave</div>
+        <div class="calc-result-value" id="r4-result">$77.500.000</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ejemplo-box">
+    <div class="ejemplo-label">Ejemplo de referencia</div>
+    <div class="ejemplo-row"><span>3 personas clave salidas</span><span></span></div>
+    <div class="ejemplo-row"><span>Vacante abierta + capacitación + curva de aprendizaje</span><span>$12.500.000 por persona</span></div>
+    <div class="ejemplo-row"><span>Impacto operativo (errores, retrasos)</span><span>$20.000.000</span></div>
+    <div class="ejemplo-total"><span>Impacto total</span><span>$57.500.000 COP</span></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- DIMENSIÓN 5 -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="dim-section" style="background:var(--white)">
+  <div class="dim-number-bg">05</div>
+
+  <div class="dim-header">
+    <div class="dim-num-badge" style="background:var(--d5)">05</div>
+    <div class="dim-title-group">
+      <div class="dim-tag" style="color:var(--d5)">Quinta dimensión</div>
+      <h3 class="dim-title">Marca Empleadora Debilitada</h3>
+    </div>
+  </div>
+
+  <div class="dim-questions" style="border-color:var(--d5)">
+    <div class="dim-q-label">Preguntas clave para su empresa</div>
+    <div class="dim-q-item">¿Cómo califican los colaboradores la empresa en redes laborales?</div>
+    <div class="dim-q-item">¿Cuántos procesos de selección se caen cuando el candidato conoce más de la empresa?</div>
+    <div class="dim-q-item">¿Qué tan difícil está siendo atraer talento de calidad?</div>
+  </div>
+
+  <div class="calc-box">
+    <div class="calc-header" style="background:var(--d5)">
+      <span class="calc-header-icon">🧮</span>
+      <span class="calc-header-text">Calcule el impacto en su empresa</span>
+    </div>
+    <div class="calc-body">
+      <div class="calc-inputs">
+        <div class="calc-field">
+          <label>Aumento en costo por vacante (COP)</label>
+          <input type="number" id="r5-costo" value="1000000" min="0" oninput="calcR5()">
+        </div>
+        <div class="calc-field">
+          <label>Vacantes anuales</label>
+          <input type="number" id="r5-vacantes" value="20" min="0" oninput="calcR5()">
+        </div>
+        <div class="calc-field">
+          <label>Tiempo promedio de cierre (meses)</label>
+          <input type="number" id="r5-meses" value="2" min="0" step="0.5" oninput="calcR5()">
+        </div>
+      </div>
+      <div class="calc-result" style="background:var(--d5)">
+        <div class="calc-result-label">Impacto adicional por marca empleadora débil</div>
+        <div class="calc-result-value" id="r5-result">$40.000.000</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ref-box">
+    <span class="ref-icon">💡</span>
+    <span>El "aumento estimado del costo" incluye: publicidad adicional, re-posteo de vacantes, uso de cazatalentos externos y retraso operativo por no cubrir el cargo a tiempo.</span>
+  </div>
+</div>
+
+<!-- ══ TOTAL ACUMULADO ══ -->
+<div class="total-section">
+  <div class="total-left">
+    <div class="total-label">Suma de las 5 dimensiones</div>
+    <div class="total-title">Costo invisible total<br>estimado en su empresa</div>
+    <div style="font-size:13px;color:rgba(10,22,40,0.55);margin-top:8px;">Según los datos ingresados en las calculadoras</div>
+  </div>
+  <div class="total-right">
+    <div class="total-num" id="total-acumulado">$957.500.000</div>
+    <div class="total-sub">COP · estimación anual</div>
+  </div>
+</div>
+
+<!-- ══ PLANTILLA RESUMEN ══ -->
+<div class="resumen-section">
+  <h2 class="resumen-title">Plantilla de aplicación rápida</h2>
+  <p class="resumen-sub">Use esta tabla en su próxima reunión con la gerencia</p>
+  <table class="resumen-table">
+    <thead>
+      <tr>
+        <th style="width:22%">Dimensión</th>
+        <th style="width:30%">Indicador observado</th>
+        <th>Fórmula de estimación</th>
+        <th style="width:16%">Su estimación (COP)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="td-dim">🔄 Rotación</td>
+        <td>Pérdida por rotación de colaboradores</td>
+        <td class="td-formula">N° salidas × (Salario anual × %reemplazo)</td>
+        <td style="font-weight:700;color:var(--gold-l) !important" id="t-r1">—</td>
+      </tr>
+      <tr>
+        <td class="td-dim">🔥 Burnout</td>
+        <td>Pérdida de valor productivo por estrés</td>
+        <td class="td-formula">% pérdida × personas × salario anual</td>
+        <td style="font-weight:700;color:var(--gold-l) !important" id="t-r2">—</td>
+      </tr>
+      <tr>
+        <td class="td-dim">💤 Desconexión</td>
+        <td>Costo del presentismo y la renuncia silenciosa</td>
+        <td class="td-formula">(% Neutros + % Detractores) × 25% × salarios totales</td>
+        <td style="font-weight:700;color:var(--gold-l) !important" id="t-r3">—</td>
+      </tr>
+      <tr>
+        <td class="td-dim">🧠 Fuga Talento</td>
+        <td>Costo de salidas de talento clave</td>
+        <td class="td-formula">N° personas clave × costo por persona + impacto operativo</td>
+        <td style="font-weight:700;color:var(--gold-l) !important" id="t-r4">—</td>
+      </tr>
+      <tr>
+        <td class="td-dim">📉 Marca Emp.</td>
+        <td>Dificultades en atracción y mayor costo de contratación</td>
+        <td class="td-formula">Costo extra por vacante × N° vacantes × meses</td>
+        <td style="font-weight:700;color:var(--gold-l) !important" id="t-r5">—</td>
+      </tr>
+      <tr class="resumen-total-row">
+        <td colspan="3" style="font-weight:700;color:var(--navy) !important">TOTAL ESTIMADO ANUAL</td>
+        <td style="font-weight:700;color:var(--navy) !important;font-size:16px !important" id="t-total">—</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ══ CIERRE ══ -->
+<div class="cierre-section">
+  <div class="cierre-left">
+    <p class="cierre-quote">
+      "Las organizaciones que eligen mirar hacia adentro antes de que sea demasiado tarde son las que terminan marcando la diferencia."
+    </p>
+    <p class="cierre-body">
+      Este modelo es un punto de partida. La medición real, con datos propios y segmentados por área, generación y género, es lo que permite actuar con precisión — no con programas genéricos que funcionan para algunos y no para otros.
+    </p>
+    <a href="https://wa.me/573188443090?text=Hola%2C%20acabo%20de%20revisar%20el%20modelo%20de%20costos%20invisibles%20de%20ACC%20y%20me%20gustar%C3%ADa%20conocer%20m%C3%A1s." class="cta-primary">
+      Hablar con el equipo ACC →
+    </a>
+  </div>
+  <div class="cierre-right">
+    <div class="cierre-right-title">¿Qué puede hacer ACC<br>con estos datos?</div>
+    <div class="cierre-item">
+      <span class="cierre-arrow">→</span>
+      <span><strong style="color:white">Índice de Florecimiento Organizacional (IFO)</strong> — mide 14 variables de bienestar con resultados segmentados por área, generación, género y antigüedad.</span>
+    </div>
+    <div class="cierre-item">
+      <span class="cierre-arrow">→</span>
+      <span><strong style="color:white">Experiencia del Empleado</strong> — arquetipos, journey actual y deseado, promotores y detractores.</span>
+    </div>
+    <div class="cierre-item">
+      <span class="cierre-arrow">→</span>
+      <span><strong style="color:white">Liderazgo y Desarrollo</strong> — Escuela de Líderes, coaching ejecutivo y Charlas Conscientes.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<div class="footer">
+  <div class="footer-brand">Academia de Crecimiento Consciente · ACC Internacional</div>
+  <div class="footer-contact">
+    daniela@accinternacional.com · (+57) 318 844 3090<br>
+    accinternacional.com
+  </div>
+</div>
+
+<script>
+// ── Formateo COP ──────────────────────────────────────────────────────────
+function fmt(n) {
+  if (!n || isNaN(n)) return '$0';
+  return '$' + Math.round(n).toLocaleString('es-CO').replace(/,/g, '.');
+}
+
+// ── Calculadoras ──────────────────────────────────────────────────────────
+let vals = { r1: 0, r2: 0, r3: 0, r4: 0, r5: 0 };
+
+function updateTotal() {
+  const total = vals.r1 + vals.r2 + vals.r3 + vals.r4 + vals.r5;
+  document.getElementById('total-acumulado').textContent = fmt(total);
+  document.getElementById('t-total').textContent = fmt(total);
+  document.getElementById('t-r1').textContent = fmt(vals.r1);
+  document.getElementById('t-r2').textContent = fmt(vals.r2);
+  document.getElementById('t-r3').textContent = fmt(vals.r3);
+  document.getElementById('t-r4').textContent = fmt(vals.r4);
+  document.getElementById('t-r5').textContent = fmt(vals.r5);
+}
+
+function calcR1() {
+  const salidas  = +document.getElementById('r1-salidas').value || 0;
+  const salario  = +document.getElementById('r1-salario').value || 0;
+  const pct      = +document.getElementById('r1-pct').value || 0;
+  vals.r1 = salidas * (salario * 12) * pct;
+  document.getElementById('r1-result').textContent = fmt(vals.r1);
+  updateTotal();
+}
+
+function calcR2() {
+  const personas = +document.getElementById('r2-personas').value || 0;
+  const salario  = +document.getElementById('r2-salario').value || 0;
+  const pct      = +document.getElementById('r2-pct').value || 0;
+  vals.r2 = pct * personas * (salario * 12);
+  document.getElementById('r2-result').textContent = fmt(vals.r2);
+  updateTotal();
+}
+
+function calcR3() {
+  const total      = +document.getElementById('r3-total').value || 0;
+  const salario    = +document.getElementById('r3-salario').value || 0;
+  const neutros    = (+document.getElementById('r3-neutros').value || 0) / 100;
+  const detract    = (+document.getElementById('r3-detractores').value || 0) / 100;
+  vals.r3 = (neutros + detract) * 0.25 * (salario * 12) * total;
+  document.getElementById('r3-result').textContent = fmt(vals.r3);
+  updateTotal();
+}
+
+function calcR4() {
+  const personas  = +document.getElementById('r4-personas').value || 0;
+  const salario   = +document.getElementById('r4-salario').value || 0;
+  const vacante   = +document.getElementById('r4-vacante').value || 0;
+  const operativo = +document.getElementById('r4-operativo').value || 0;
+  // Por persona: vacante + capacitación ($1.5M fijo) + curva aprendizaje (3m × 25%)
+  const porPersona = (vacante * salario) + 1500000 + (3 * 0.25 * salario);
+  vals.r4 = (porPersona * personas) + operativo;
+  document.getElementById('r4-result').textContent = fmt(vals.r4);
+  updateTotal();
+}
+
+function calcR5() {
+  const costo    = +document.getElementById('r5-costo').value || 0;
+  const vacantes = +document.getElementById('r5-vacantes').value || 0;
+  const meses    = +document.getElementById('r5-meses').value || 0;
+  vals.r5 = costo * vacantes * meses;
+  document.getElementById('r5-result').textContent = fmt(vals.r5);
+  updateTotal();
+}
+
+// Inicializar
+calcR1(); calcR2(); calcR3(); calcR4(); calcR5();
+</script>
+</body>
+</html>
