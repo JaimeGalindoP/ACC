@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan de Acción · IFO Disfarma 2026</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0D3B5E;
+      --navy-dark: #082A44;
+      --teal: #1A7D8E;
+      --teal-light: #E8F4F6;
+      --amber: #C17F00;
+      --amber-light: #FFF8E6;
+      --red: #B03020;
+      --red-light: #FDECEA;
+      --green: #1B6E3C;
+      --green-light: #E8F5EE;
+      --gray: #666666;
+      --gray-light: #F5F6F8;
+      --border: #DDE2E8;
+      --white: #FFFFFF;
+    }
+    body { font-family: Arial, Helvetica, sans-serif; background: #F0F2F5; color: #222; font-size: 14px; }
+
+    /* HEADER */
+    .header { background: var(--navy); color: var(--white); padding: 22px 32px 18px; }
+    .header h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.3px; }
+    .header .subtitle { font-size: 13px; color: rgba(255,255,255,0.75); margin-top: 3px; }
+    .header-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; align-items: center; }
+    .chip { background: rgba(255,255,255,0.13); border-radius: 20px; padding: 4px 14px; font-size: 12px; color: rgba(255,255,255,0.9); }
+    .chip.date { background: rgba(255,255,255,0.08); }
+    .chip strong { color: #fff; }
+
+    /* MAIN */
+    .main { max-width: 1400px; margin: 0 auto; padding: 24px 24px 48px; }
+
+    /* KPI CARDS */
+    .kpi-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; margin-bottom: 20px; }
+    @media (max-width: 1200px) { .kpi-grid { grid-template-columns: repeat(4, 1fr); } }
+    .kpi { background: var(--white); border-radius: 10px; padding: 16px 18px; border: 1px solid var(--border); }
+    .kpi .label { font-size: 11px; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .kpi .value { font-size: 30px; font-weight: 700; line-height: 1; }
+    .kpi .desc { font-size: 11px; color: var(--gray); margin-top: 4px; }
+    .kpi .value.navy { color: var(--navy); }
+    .kpi .value.red { color: var(--red); }
+    .kpi .value.amber { color: var(--amber); }
+    .kpi .value.green { color: var(--green); }
+    .kpi .value.teal { color: var(--teal); }
+    .kpi .value.gray { color: #999; }
+
+    /* GUÍA DE LECTURA */
+    .guia-toggle { display: flex; align-items: center; gap: 10px; cursor: pointer; background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 14px 20px; margin-bottom: 16px; user-select: none; transition: background 0.15s; }
+    .guia-toggle:hover { background: var(--teal-light); }
+    .guia-toggle .guia-icon { font-size: 18px; }
+    .guia-toggle .guia-title { font-weight: 700; color: var(--navy); font-size: 14px; }
+    .guia-toggle .guia-sub { font-size: 12px; color: var(--gray); margin-left: 4px; }
+    .guia-toggle .guia-chevron { margin-left: auto; font-size: 12px; color: var(--gray); transition: transform 0.2s; }
+    .guia-toggle.open .guia-chevron { transform: rotate(180deg); }
+
+    .guia-body { display: none; background: var(--white); border: 1px solid var(--border); border-top: none; border-radius: 0 0 10px 10px; padding: 0 20px 20px; margin-bottom: 20px; margin-top: -16px; }
+    .guia-body.open { display: block; }
+    .guia-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px; }
+    @media (max-width: 900px) { .guia-grid { grid-template-columns: 1fr; } }
+    .guia-block { }
+    .guia-block h4 { font-size: 11px; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 2px solid var(--teal-light); }
+    .guia-item { display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start; }
+    .guia-item .gi-badge { flex-shrink: 0; min-width: 52px; padding: 3px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; text-align: center; }
+    .guia-item .gi-text { font-size: 12px; color: #444; line-height: 1.5; }
+    .guia-item .gi-text strong { color: #222; display: block; margin-bottom: 1px; }
+    .gi-red { background: var(--red-light); color: var(--red); }
+    .gi-amber { background: var(--amber-light); color: var(--amber); }
+    .gi-green { background: var(--green-light); color: var(--green); }
+    .gi-navy { background: #E3EAF4; color: var(--navy); }
+    .gi-teal { background: var(--teal-light); color: var(--teal); }
+    .guia-note { margin-top: 16px; background: #F8FAFC; border-left: 3px solid var(--teal); padding: 10px 14px; border-radius: 0 6px 6px 0; font-size: 12px; color: #444; line-height: 1.6; }
+    .guia-note strong { color: var(--navy); }
+
+    /* CHARTS ROW */
+    .charts-row { display: grid; grid-template-columns: 1fr 1.6fr 1.4fr; gap: 16px; margin-bottom: 20px; }
+    @media (max-width: 1100px) { .charts-row { grid-template-columns: 1fr; } }
+    .card { background: var(--white); border-radius: 10px; padding: 20px; border: 1px solid var(--border); }
+    .card-title { font-size: 11px; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 16px; }
+    .chart-wrap { position: relative; }
+    .chart-wrap canvas { max-height: 200px; }
+
+    /* PROGRESO */
+    .progress-section { background: var(--white); border-radius: 10px; padding: 20px; border: 1px solid var(--border); margin-bottom: 20px; }
+    .progress-row { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+    .progress-row:last-child { margin-bottom: 0; }
+    .progress-label { width: 150px; font-size: 12px; color: var(--navy); font-weight: 600; flex-shrink: 0; }
+    .progress-bar-wrap { flex: 1; background: #EEF0F3; border-radius: 6px; height: 10px; overflow: hidden; }
+    .progress-bar { height: 100%; border-radius: 6px; transition: width 0.6s ease; }
+    .progress-pct { width: 40px; text-align: right; font-size: 12px; font-weight: 700; color: var(--navy); flex-shrink: 0; }
+    .progress-count { width: 80px; text-align: right; font-size: 11px; color: var(--gray); flex-shrink: 0; }
+
+    /* FILTERS & TABLA */
+    .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 16px; }
+    .filter-group { display: flex; gap: 8px; flex-wrap: wrap; }
+    .filter-btn { border: 1px solid var(--border); background: var(--white); border-radius: 20px; padding: 5px 14px; font-size: 12px; cursor: pointer; transition: all 0.15s; color: #444; }
+    .filter-btn:hover { border-color: var(--teal); color: var(--teal); }
+    .filter-btn.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+    .view-toggle { display: flex; gap: 6px; margin-left: auto; }
+    .view-btn { border: 1px solid var(--border); background: var(--white); border-radius: 6px; padding: 5px 12px; font-size: 12px; cursor: pointer; color: #444; }
+    .view-btn.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+
+    .results-info { font-size: 12px; color: var(--gray); margin-bottom: 12px; }
+    .results-info strong { color: var(--navy); }
+
+    /* TABLE */
+    .table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); background: var(--white); }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    thead { background: var(--navy); color: #fff; }
+    thead th { padding: 11px 14px; text-align: left; font-size: 11px; font-weight: 600; letter-spacing: 0.5px; white-space: nowrap; }
+    tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--gray-light); }
+    tbody td { padding: 11px 14px; vertical-align: top; }
+    .id-cell { font-family: monospace; font-size: 11px; color: var(--gray); white-space: nowrap; }
+    .accion-name { font-weight: 600; color: var(--navy); margin-bottom: 3px; }
+    .accion-desc { font-size: 11px; color: #555; line-height: 1.4; }
+    .unidad-badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+    .u-Administrativa { background: #E3EAF4; color: #0D3B5E; }
+    .u-Comercial { background: #E8F0FC; color: #1A4A8E; }
+    .u-Logística { background: #E8F4F6; color: #1A5E6E; }
+    .u-Dispensación { background: #F0EAF8; color: #5B2D8E; }
+    .u-Transversal { background: #F5F0E8; color: #6E4A1A; }
+    .var-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; background: #F0F0F0; color: #333; }
+    .resp-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+    .resp-tag { background: var(--teal-light); color: var(--teal); border-radius: 4px; padding: 1px 6px; font-size: 10px; font-weight: 700; }
+    .date-cell { font-size: 12px; color: #444; white-space: nowrap; }
+
+    /* PRIORITY BADGES */
+    .prior-badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+    .prior-Urgente { background: var(--red-light); color: var(--red); }
+    .prior-Importante { background: var(--amber-light); color: var(--amber); }
+    .prior-Sostenimiento { background: var(--green-light); color: var(--green); }
+
+    /* STATUS BADGES */
+    .estado-badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; cursor: pointer; transition: opacity 0.15s; }
+    .estado-badge:hover { opacity: 0.8; }
+    .est-Pendiente { background: #FFF8E6; color: #8A6000; }
+    .est-Encurso { background: #E3EAF4; color: var(--navy); }
+    .est-Completado { background: var(--green-light); color: var(--green); }
+    .est-Bloqueado { background: var(--red-light); color: var(--red); }
+
+    /* KANBAN */
+    #kanban-view { display: none; }
+    .kanban-cols { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    @media (max-width: 900px) { .kanban-cols { grid-template-columns: 1fr; } }
+    .kanban-col { background: var(--gray-light); border-radius: 10px; padding: 14px; }
+    .kanban-col-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .kanban-col-title { font-weight: 700; font-size: 13px; }
+    .kanban-col-count { background: rgba(0,0,0,0.1); border-radius: 12px; padding: 1px 8px; font-size: 11px; font-weight: 700; }
+    .kanban-card { background: var(--white); border-radius: 8px; padding: 12px; margin-bottom: 10px; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    .kanban-card-id { font-family: monospace; font-size: 10px; color: var(--gray); margin-bottom: 4px; }
+    .kanban-card-name { font-weight: 600; font-size: 12px; color: var(--navy); margin-bottom: 4px; line-height: 1.3; }
+    .kanban-card-contexto { font-size: 11px; color: #555; line-height: 1.4; margin-bottom: 8px; }
+    .kanban-card-meta { display: flex; flex-wrap: wrap; gap: 4px; }
+
+    /* MODAL */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 1000; align-items: center; justify-content: center; padding: 16px; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: var(--white); border-radius: 14px; padding: 0; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+    .modal-header { background: var(--navy); border-radius: 14px 14px 0 0; padding: 20px 24px; }
+    .modal-header-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .modal-title { font-size: 16px; font-weight: 700; color: var(--white); line-height: 1.3; }
+    .modal-id { font-family: monospace; font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 4px; }
+    .modal-close { background: rgba(255,255,255,0.15); border: none; color: #fff; border-radius: 50%; width: 28px; height: 28px; font-size: 14px; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .modal-close:hover { background: rgba(255,255,255,0.25); }
+    .modal-body { padding: 20px 24px 24px; }
+
+    /* Modal sections */
+    .modal-contexto { background: #F0F7FF; border-left: 4px solid var(--teal); border-radius: 0 8px 8px 0; padding: 14px 16px; margin-bottom: 18px; }
+    .modal-contexto-label { font-size: 10px; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px; }
+    .modal-contexto-text { font-size: 13px; color: #2A3F52; line-height: 1.7; }
+
+    .modal-section-title { font-size: 10px; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; margin-top: 16px; }
+    .modal-desc { font-size: 12px; color: #444; line-height: 1.6; margin-bottom: 16px; }
+
+    .modal-pasos { background: var(--gray-light); border-radius: 8px; padding: 14px 16px; margin-bottom: 18px; }
+    .modal-pasos-label { font-size: 10px; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 10px; }
+    .paso-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 8px; }
+    .paso-item:last-child { margin-bottom: 0; }
+    .paso-num { background: var(--navy); color: #fff; border-radius: 50%; width: 20px; height: 20px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; margin-top: 1px; }
+    .paso-text { font-size: 12px; color: #333; line-height: 1.5; }
+
+    .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+    .modal-field { background: var(--gray-light); border-radius: 6px; padding: 10px 12px; }
+    .modal-field label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray); font-weight: 700; display: block; margin-bottom: 3px; }
+    .modal-field span { font-size: 12px; color: #222; font-weight: 600; }
+
+    .modal-estado { }
+    .modal-estado label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray); font-weight: 700; display: block; margin-bottom: 8px; }
+    .estado-options { display: flex; gap: 8px; flex-wrap: wrap; }
+    .estado-opt { border: 2px solid var(--border); background: var(--white); border-radius: 20px; padding: 5px 14px; font-size: 12px; cursor: pointer; transition: all 0.15s; }
+    .estado-opt:hover { border-color: var(--teal); }
+    .estado-opt.sel-Pendiente { border-color: #8A6000; background: #FFF8E6; color: #8A6000; }
+    .estado-opt.sel-En\ curso { border-color: var(--navy); background: var(--teal-light); color: var(--navy); }
+    .estado-opt.sel-Completado { border-color: var(--green); background: var(--green-light); color: var(--green); }
+    .estado-opt.sel-Bloqueado { border-color: var(--red); background: var(--red-light); color: var(--red); }
+
+    /* LEGEND */
+    .legend-row { display: flex; gap: 18px; flex-wrap: wrap; font-size: 11px; color: #555; margin-top: 12px; }
+    .legend-item { display: flex; align-items: center; gap: 5px; }
+    .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+    /* ── MOBILE (≤ 640px) ───────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      /* Header */
+      .header { padding: 16px 16px 14px; }
+      .header h1 { font-size: 17px; }
+      .header .subtitle { font-size: 12px; }
+      .header-meta { gap: 6px; margin-top: 10px; }
+      .chip { font-size: 11px; padding: 3px 10px; }
+
+      /* Main padding */
+      .main { padding: 14px 12px 40px; }
+
+      /* KPI: 2 columns */
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .kpi { padding: 12px 14px; }
+      .kpi .value { font-size: 24px; }
+
+      /* Guía */
+      .guia-toggle { padding: 12px 14px; }
+      .guia-toggle .guia-sub { display: none; }
+      .guia-body { padding: 0 14px 16px; }
+      .guia-grid { grid-template-columns: 1fr; gap: 14px; }
+
+      /* Charts: 1 column always */
+      .charts-row { grid-template-columns: 1fr; gap: 12px; }
+      .card { padding: 14px; }
+
+      /* Progress */
+      .progress-section { padding: 14px; }
+      .progress-label { width: 110px; font-size: 11px; }
+      .progress-count { display: none; }
+
+      /* Toolbar: stack vertically */
+      .toolbar { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .filter-group { gap: 6px; }
+      .filter-btn { font-size: 11px; padding: 4px 10px; }
+      .view-toggle { margin-left: 0; }
+
+      /* Table: hide less critical columns, keep it scrollable */
+      .table-wrap { border-radius: 8px; }
+      thead th:nth-child(5),   /* Variable IFO */
+      thead th:nth-child(6),   /* Resp */
+      thead th:nth-child(7),   /* Inicio */
+      thead th:nth-child(8),   /* Límite */
+      tbody td:nth-child(5),
+      tbody td:nth-child(6),
+      tbody td:nth-child(7),
+      tbody td:nth-child(8) { display: none; }
+      table { font-size: 12px; }
+      thead th { padding: 9px 10px; font-size: 10px; }
+      tbody td { padding: 9px 10px; }
+      .accion-name { font-size: 12px; }
+      .accion-desc { display: none; }
+
+      /* Kanban */
+      .kanban-cols { grid-template-columns: 1fr; }
+
+      /* Modal */
+      .modal-overlay { padding: 0; align-items: flex-end; }
+      .modal { border-radius: 16px 16px 0 0; max-height: 92vh; max-width: 100%; }
+      .modal-header { padding: 16px 18px; border-radius: 16px 16px 0 0; }
+      .modal-title { font-size: 14px; }
+      .modal-body { padding: 16px 18px 20px; }
+      .modal-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .modal-field { padding: 8px 10px; }
+      .modal-contexto { padding: 12px 14px; }
+      .modal-pasos { padding: 12px 14px; }
+      .estado-options { gap: 6px; }
+      .estado-opt { font-size: 11px; padding: 4px 10px; }
+    }
+
+    /* ── SMALL MOBILE (≤ 380px) ─────────────────────────────────────── */
+    @media (max-width: 380px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .kpi .value { font-size: 20px; }
+      .modal-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Plan de Acción · IFO Disfarma 2026</h1>
+  <div class="subtitle">Resultados Medición IFO 2026 · Hoja de Ruta para TH, Gerencia y Líderes</div>
+  <div class="header-meta">
+    <span class="chip" id="chip-total"><strong>—</strong> acciones</span>
+    <span class="chip"><strong>7</strong> focos de intervención</span>
+    <span class="chip">TH = Talento Humano · Ge = Gerencia · Li = Líderes · DC/DL/DD = Direcciones</span>
+    <span class="chip date">Actualizado: <span id="fecha-hoy"></span></span>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- KPI CARDS -->
+  <div class="kpi-grid" id="kpi-grid">
+    <div class="kpi"><div class="label">Total acciones</div><div class="value navy" id="kpi-total">—</div><div class="desc">Plan IFO 2026</div></div>
+    <div class="kpi"><div class="label">🔴 Urgentes</div><div class="value red" id="kpi-urgentes">—</div><div class="desc">30–60 días</div></div>
+    <div class="kpi"><div class="label">🟡 Importantes</div><div class="value amber" id="kpi-importantes">—</div><div class="desc">60–90 días</div></div>
+    <div class="kpi"><div class="label">🟢 Sostenimiento</div><div class="value green" id="kpi-sost">—</div><div class="desc">Continuo</div></div>
+    <div class="kpi"><div class="label">En curso</div><div class="value teal" id="kpi-encurso">—</div><div class="desc">En ejecución</div></div>
+    <div class="kpi"><div class="label">Completadas</div><div class="value gray" id="kpi-comp">—</div><div class="desc">Listas ✓</div></div>
+    <div class="kpi"><div class="label">Unidades</div><div class="value navy">4</div><div class="desc">Adm · Com · Log · Disp</div></div>
+  </div>
+
+  <!-- GUÍA DE LECTURA -->
+  <div class="guia-toggle" id="guia-toggle" onclick="toggleGuia()">
+    <span class="guia-icon">📖</span>
+    <span class="guia-title">¿Cómo leer este plan?</span>
+    <span class="guia-sub">— Guía para TH, Gerencia y Líderes</span>
+    <span class="guia-chevron" id="guia-chevron">▼</span>
+  </div>
+  <div class="guia-body" id="guia-body">
+    <div class="guia-grid">
+
+      <div class="guia-block">
+        <h4>¿Qué es el IFO?</h4>
+        <p style="font-size:12px;color:#444;line-height:1.7;margin-bottom:10px;">
+          El <strong>Índice de Florecimiento Organizacional (IFO)</strong> mide qué tan bien están las personas en su trabajo, más allá de la simple satisfacción. Se compone de cinco dimensiones del bienestar <em>(PERMA)</em>, salud emocional, fortalezas de carácter y el entorno que lo facilita o dificulta.
+        </p>
+        <div class="guia-note">
+          <strong>Escala de referencia:</strong> 0–5 Bajo · 5.1–6.4 Óptimo · 6.5–7.9 Normal · 8.0–8.9 Alto · 9.0–10 Muy Alto. El promedio Disfarma 2026 es <strong>IFP = 7.52</strong> — zona Normal.
+        </div>
+        <div style="margin-top:12px;">
+          <p style="font-size:11px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px;">Dimensiones PERMA</p>
+          <div class="guia-item"><span class="gi-badge gi-navy">P</span><div class="gi-text"><strong>Positividad</strong>Cuántas emociones positivas vive la persona en el trabajo día a día.</div></div>
+          <div class="guia-item"><span class="gi-badge gi-teal">E</span><div class="gi-text"><strong>Engagement</strong>Nivel de absorción, entusiasmo y energía con las tareas.</div></div>
+          <div class="guia-item"><span class="gi-badge gi-red">R</span><div class="gi-text"><strong>Relaciones</strong>Calidad de los vínculos con colegas y líderes. <em>Mayor caída 2026.</em></div></div>
+          <div class="guia-item"><span class="gi-badge gi-navy">M</span><div class="gi-text"><strong>Sentido</strong>Percepción de que el trabajo tiene propósito y valor.</div></div>
+          <div class="guia-item"><span class="gi-badge gi-green">A</span><div class="gi-text"><strong>Logro</strong>Sensación de avanzar, crecer y alcanzar metas.</div></div>
+        </div>
+      </div>
+
+      <div class="guia-block">
+        <h4>¿Qué significa cada prioridad?</h4>
+        <div class="guia-item" style="margin-top:8px;">
+          <span class="gi-badge gi-red">🔴</span>
+          <div class="gi-text">
+            <strong>Urgente (30–60 días · Jul–Ago 2026)</strong>
+            Hay una señal de alerta clara en los datos: una caída importante, un resultado muy bajo o un riesgo de agotamiento en el equipo. Si no se actúa pronto, el problema puede agravarse. <em>Requiere asignación de responsable esta semana.</em>
+          </div>
+        </div>
+        <div class="guia-item" style="margin-top:12px;">
+          <span class="gi-badge gi-amber">🟡</span>
+          <div class="gi-text">
+            <strong>Importante (60–90 días · Ago–Oct 2026)</strong>
+            El indicador no está en crisis, pero hay oportunidad de mejora clara. Si se trabaja ahora, se pueden prevenir caídas futuras y capitalizar el momento. <em>Planificar antes de agosto.</em>
+          </div>
+        </div>
+        <div class="guia-item" style="margin-top:12px;">
+          <span class="gi-badge gi-green">🟢</span>
+          <div class="gi-text">
+            <strong>Sostenimiento (Oct–Dic 2026 · Continuo)</strong>
+            El área está bien. El objetivo es entender por qué funciona, documentarlo y usarlo como modelo para otras áreas. <em>No intervenir cambiando lo que ya funciona.</em>
+          </div>
+        </div>
+        <div class="guia-note" style="margin-top:14px;">
+          <strong>Regla de oro:</strong> Una acción de Sostenimiento mal ejecutada puede destruir lo que está funcionando. Priorizar siempre las Urgentes primero.
+        </div>
+      </div>
+
+      <div class="guia-block">
+        <h4>¿Quién hace qué?</h4>
+        <div class="guia-item" style="margin-top:8px;"><span class="gi-badge gi-navy">TH</span><div class="gi-text"><strong>Talento Humano</strong>Diseña y facilita las intervenciones. Punto de coordinación central del plan.</div></div>
+        <div class="guia-item"><span class="gi-badge gi-teal">Ge</span><div class="gi-text"><strong>Gerencia General</strong>Patrocina, valida y participa en acciones que involucran a líderes o decisiones estratégicas.</div></div>
+        <div class="guia-item"><span class="gi-badge gi-navy">Li</span><div class="gi-text"><strong>Líderes de Área</strong>Ejecutan en campo: facilitan espacios, dan retroalimentación, sostienen el cambio día a día.</div></div>
+        <div class="guia-item"><span class="gi-badge gi-green">DC</span><div class="gi-text"><strong>Dirección Comercial</strong>Lidera acciones específicas de la Unidad Comercial.</div></div>
+        <div class="guia-item"><span class="gi-badge gi-green">DL</span><div class="gi-text"><strong>Dirección Logística</strong>Lidera acciones de CDIs y áreas de Logística.</div></div>
+        <div class="guia-item"><span class="gi-badge gi-green">DD</span><div class="gi-text"><strong>Dirección Dispensación</strong>Lidera acciones de coordinaciones regionales y Cuentas Médicas.</div></div>
+        <div class="guia-note" style="margin-top:14px;">
+          <strong>Tip para líderes:</strong> Haga clic en cualquier fila de la tabla para ver la descripción completa de la acción, su contexto y los primeros pasos sugeridos.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CHARTS -->
+  <div class="charts-row">
+    <div class="card">
+      <div class="card-title">Estado de acciones</div>
+      <div class="chart-wrap"><canvas id="donutChart"></canvas></div>
+      <div class="legend-row" id="donut-legend"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Acciones por unidad y prioridad</div>
+      <div class="chart-wrap"><canvas id="barChart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Acciones por foco de intervención</div>
+      <div class="chart-wrap"><canvas id="focoChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- PROGRESO POR UNIDAD -->
+  <div class="progress-section" style="margin-bottom:20px;">
+    <div class="card-title">Progreso por unidad</div>
+    <div id="progress-rows"></div>
+  </div>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <div class="filter-group" id="fg-prior">
+      <span style="font-size:11px;color:var(--gray);align-self:center;font-weight:700;">PRIORIDAD:</span>
+      <button class="filter-btn active" data-filter-type="prioridad" data-filter-val="Todas">Todas</button>
+      <button class="filter-btn" data-filter-type="prioridad" data-filter-val="Urgente">🔴 Urgente</button>
+      <button class="filter-btn" data-filter-type="prioridad" data-filter-val="Importante">🟡 Importante</button>
+      <button class="filter-btn" data-filter-type="prioridad" data-filter-val="Sostenimiento">🟢 Sostenimiento</button>
+    </div>
+    <div class="filter-group" id="fg-unidad">
+      <span style="font-size:11px;color:var(--gray);align-self:center;font-weight:700;">UNIDAD:</span>
+      <button class="filter-btn active" data-filter-type="unidad" data-filter-val="Todas">Todas</button>
+      <button class="filter-btn" data-filter-type="unidad" data-filter-val="Administrativa">Administrativa</button>
+      <button class="filter-btn" data-filter-type="unidad" data-filter-val="Comercial">Comercial</button>
+      <button class="filter-btn" data-filter-type="unidad" data-filter-val="Logística">Logística</button>
+      <button class="filter-btn" data-filter-type="unidad" data-filter-val="Dispensación">Dispensación</button>
+      <button class="filter-btn" data-filter-type="unidad" data-filter-val="Transversal">Transversal</button>
+    </div>
+    <div class="view-toggle">
+      <button class="view-btn active" id="btn-tabla" onclick="setView('tabla')">Tabla</button>
+      <button class="view-btn" id="btn-kanban" onclick="setView('kanban')">Kanban</button>
+    </div>
+  </div>
+
+  <div class="results-info"><strong id="results-count">—</strong> acciones mostradas · Haz clic en una fila para ver el detalle completo</div>
+
+  <!-- TABLE VIEW -->
+  <div id="tabla-view">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Prior.</th>
+            <th>Acción</th>
+            <th>Unidad / Área</th>
+            <th>Variable IFO</th>
+            <th>Resp.</th>
+            <th>Inicio</th>
+            <th>Límite</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- KANBAN VIEW -->
+  <div id="kanban-view">
+    <div class="kanban-cols">
+      <div class="kanban-col" style="border-top:3px solid #B03020">
+        <div class="kanban-col-header">
+          <span class="kanban-col-title" style="color:#B03020">🔴 Urgente</span>
+          <span class="kanban-col-count" id="k-urgente-count" style="background:rgba(176,48,32,0.12);color:#B03020">0</span>
+        </div>
+        <div id="kanban-urgente"></div>
+      </div>
+      <div class="kanban-col" style="border-top:3px solid #C17F00">
+        <div class="kanban-col-header">
+          <span class="kanban-col-title" style="color:#C17F00">🟡 Importante</span>
+          <span class="kanban-col-count" id="k-importante-count" style="background:rgba(193,127,0,0.12);color:#C17F00">0</span>
+        </div>
+        <div id="kanban-importante"></div>
+      </div>
+      <div class="kanban-col" style="border-top:3px solid #1B6E3C">
+        <div class="kanban-col-header">
+          <span class="kanban-col-title" style="color:#1B6E3C">🟢 Sostenimiento</span>
+          <span class="kanban-col-count" id="k-sost-count" style="background:rgba(27,110,60,0.12);color:#1B6E3C">0</span>
+        </div>
+        <div id="kanban-sost"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-header-top">
+        <div>
+          <div class="modal-title" id="m-title"></div>
+          <div class="modal-id" id="m-id"></div>
+        </div>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+    </div>
+    <div class="modal-body">
+
+      <!-- Contexto en lenguaje simple -->
+      <div class="modal-contexto">
+        <div class="modal-contexto-label">💡 ¿Por qué esta acción?</div>
+        <div class="modal-contexto-text" id="m-contexto"></div>
+      </div>
+
+      <!-- Primeros pasos -->
+      <div class="modal-pasos">
+        <div class="modal-pasos-label">🚀 Primeros pasos sugeridos</div>
+        <div id="m-pasos"></div>
+      </div>
+
+      <!-- Detalle técnico (colapsable) -->
+      <div style="margin-bottom:14px;">
+        <div class="modal-section-title" style="cursor:pointer;display:flex;align-items:center;gap:6px;" onclick="toggleDetalle()">
+          <span>📊 Detalle técnico (datos IFO)</span>
+          <span id="detalle-chevron" style="font-size:10px;color:var(--gray);">▼</span>
+        </div>
+        <div id="modal-detalle" style="display:none;">
+          <div class="modal-desc" id="m-desc"></div>
+        </div>
+      </div>
+
+      <!-- Metadata grid -->
+      <div class="modal-grid">
+        <div class="modal-field"><label>Unidad</label><span id="m-unidad"></span></div>
+        <div class="modal-field"><label>Área</label><span id="m-area"></span></div>
+        <div class="modal-field"><label>Variable IFO</label><span id="m-var"></span></div>
+        <div class="modal-field"><label>Responsables</label><span id="m-resp"></span></div>
+        <div class="modal-field"><label>Inicio</label><span id="m-inicio"></span></div>
+        <div class="modal-field"><label>Límite</label><span id="m-limite"></span></div>
+      </div>
+
+      <!-- Estado -->
+      <div class="modal-estado">
+        <label>Actualizar estado</label>
+        <div class="estado-options" id="m-estado-opts"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const acciones = [
+  // ADMINISTRATIVA — URGENTES
+  {
+    id:"ADM-01", prioridad:"Urgente",
+    accion:"Diagnóstico individualizado — Comunicaciones",
+    descripcion:"Sesión 1:1 con los 2 colaboradores del área para mapear drivers de bajo IFP=4.72. Registro de hallazgos y plan de acompañamiento inmediato con TH.",
+    contexto:"El área de Comunicaciones tiene solo 2 personas, y sus resultados de bienestar son los más bajos de toda la empresa. Antes de proponer cualquier programa o intervención, necesitamos escucharlas directamente: saber qué está pasando, cómo se sienten y qué necesitan. Con equipos tan pequeños, una conversación honesta vale más que cualquier taller.",
+    pasos:["Coordinar desde TH una sesión 1:1 confidencial con cada colaborador esta semana.", "Usar una guía de escucha simple: ¿cómo estás?, ¿qué te genera más estrés?, ¿qué necesitas de la empresa?", "Documentar hallazgos y proponer un plan de acompañamiento personalizado en los próximos 15 días."],
+    unidad:"Administrativa", area:"Comunicaciones", variable:"IFP", resp:["TH"], inicio:"Jul 2026", limite:"Jul 2026", estado:"Pendiente"
+  },
+  {
+    id:"ADM-02", prioridad:"Urgente",
+    accion:"Intervención de vínculos — Abastecimiento",
+    descripcion:"Diagnóstico cualitativo + taller de reconstrucción de relaciones. R=6.36 es el más bajo de toda la unidad Administrativa. Proceso urgente con facilitación.",
+    contexto:"Las relaciones entre las personas del equipo de Abastecimiento están deterioradas — es el indicador más bajo de toda la Unidad Administrativa. Cuando las personas no se llevan bien o no confían entre sí en el trabajo, la productividad cae, los errores aumentan y el clima se vuelve tenso para todos. Hay que intervenir antes de que el problema se agrave o llegue a afectar la operación.",
+    pasos:["Realizar un diagnóstico rápido (encuesta o entrevistas breves) para entender las causas del deterioro relacional.", "Diseñar y facilitar un taller de reconstrucción de vínculos con el equipo completo (enfocado en confianza y comunicación).", "Establecer rituales de equipo simples (reunión semanal breve, espacio de reconocimiento) para sostener el cambio."],
+    unidad:"Administrativa", area:"Abastecimiento", variable:"R", resp:["TH","Li"], inicio:"Jul 2026", limite:"Ago 2026", estado:"Pendiente"
+  },
+  {
+    id:"ADM-03", prioridad:"Urgente",
+    accion:"Romper aislamiento interpersonal — TI",
+    descripcion:"R=7.00 indica bajo contacto relacional con el resto de la organización. Intervención para conectar al equipo TI con otras áreas: proyectos transversales, espacios de visibilidad y rituales compartidos.",
+    contexto:"El equipo de TI trabaja bien en lo técnico, pero sus resultados de relaciones están entre los más bajos de la unidad. Esto es común en equipos de tecnología: trabajan mucho en silencio, resuelven problemas de todos, pero pocas personas los conocen o reconocen. El riesgo es que se sientan desconectados del propósito de la empresa y eso eventualmente afecte su motivación.",
+    pasos:["Identificar 2-3 proyectos transversales donde TI pueda participar visiblemente junto a otras áreas.", "Crear un espacio mensual donde TI comparta con la organización qué proyectos está liderando y su impacto.", "Incluir al líder de TI en espacios de liderazgo más amplios (reuniones de dirección, comités)."],
+    unidad:"Administrativa", area:"TI", variable:"R", resp:["TH","Li"], inicio:"Jul 2026", limite:"Ago 2026", estado:"Pendiente"
+  },
+  // ADMINISTRATIVA — IMPORTANTES
+  {
+    id:"ADM-04", prioridad:"Importante",
+    accion:"Bienestar emocional — SAC y Planta Física",
+    descripcion:"Programa de regulación emocional para roles de atención continua. SAC IFO=7.17, Planta Física IFO=7.06.",
+    contexto:"Las personas que trabajan en atención al cliente (SAC) y en Planta Física tienen roles que implican alta exposición emocional: lidian con quejas, presión de tiempo y demandas constantes. Con el tiempo, eso genera desgaste. Sus indicadores muestran que están en un nivel aceptable, pero hay señales de que el estrés cotidiano los está afectando. Actuar ahora evita que lleguen al agotamiento.",
+    pasos:["Implementar pausas activas estructuradas durante la jornada (no solo físicas, también de desconexión mental).", "Ofrecer un taller práctico de regulación emocional y manejo del estrés adaptado a sus realidades de trabajo.", "Crear un canal simple para que puedan reportar situaciones difíciles sin temor a consecuencias."],
+    unidad:"Administrativa", area:"SAC / Planta Física", variable:"E", resp:["TH","Li"], inicio:"Ago 2026", limite:"Sep 2026", estado:"Pendiente"
+  },
+  {
+    id:"ADM-05", prioridad:"Importante",
+    accion:"Atención paradoja del cuidador — TH",
+    descripcion:"Equipo TH con IFP=7.69, E=9.20 pero señales de agotamiento en otras dimensiones. Plan de autocuidado liderado por Gerencia.",
+    contexto:"Las personas de Talento Humano cuidan a toda la organización, pero ¿quién las cuida a ellas? Sus datos muestran mucho entusiasmo y energía con su trabajo, pero sus emociones positivas y su bienestar general son más bajos de lo esperado. Es la 'paradoja del cuidador': se dan tanto a los demás que se descuidan a sí mismos. Gerencia debe tomar la iniciativa aquí, no puede ser que TH diseñe su propio plan de cuidado.",
+    pasos:["Gerencia organiza una reunión de reconocimiento y escucha con el equipo TH (no liderada por TH mismo).", "Co-diseñar con el equipo un plan de autocuidado que ellos mismos validen y quieran implementar.", "Establecer un límite claro de cargas de trabajo y prioridades para el área durante el segundo semestre."],
+    unidad:"Administrativa", area:"Talento Humano", variable:"P", resp:["Ge","TH"], inicio:"Ago 2026", limite:"Sep 2026", estado:"Pendiente"
+  },
+  // ADMINISTRATIVA — SOSTENIMIENTO
+  {
+    id:"ADM-06", prioridad:"Sostenimiento",
+    accion:"Documentar y transferir — Seguridad y Desarrollo",
+    descripcion:"Seguridad (IFO=8.20) y Desarrollo (IFO=8.15) como referentes. Capturar prácticas de liderazgo y clima para transferirlas a otras áreas.",
+    contexto:"Seguridad y Desarrollo son las áreas con mayor bienestar de toda la Unidad Administrativa. Algo están haciendo bien sus líderes. El objetivo no es cambiar nada allí, sino entender qué prácticas, hábitos de liderazgo o dinámicas de equipo explican esos resultados, y convertirlos en un modelo que otras áreas puedan aprender.",
+    pasos:["Realizar una sesión de 'captura de buenas prácticas' con los líderes de ambas áreas: ¿qué hacen diferente?", "Documentar esas prácticas en un formato simple y compartible (no un informe extenso).", "Compartir los hallazgos con líderes de áreas en intervención como referente inspirador, no como receta."],
+    unidad:"Administrativa", area:"Seguridad / Desarrollo", variable:"IFP", resp:["TH","Li"], inicio:"Oct 2026", limite:"Dic 2026", estado:"Pendiente"
+  },
+
+  // COMERCIAL — IMPORTANTE
+  {
+    id:"COM-01", prioridad:"Importante",
+    accion:"Bienestar emocional — Contact Center",
+    descripcion:"Rituales de inicio y cierre de jornada. Gestión emocional post-interacción difícil. IFO=7.42 (n=11). Transferir aprendizajes desde Distribuidora.",
+    contexto:"El equipo de Contact Center tiene un trabajo emocionalmente exigente: reciben llamadas difíciles, manejan quejas y tienen poca variedad en su rutina. Sus indicadores muestran que están bien, pero hay margen de mejora, sobre todo en cómo manejan el impacto emocional de las interacciones más pesadas. La buena noticia es que tienen a Distribuidora justo al lado, el área con los mejores resultados de la empresa, como referente.",
+    pasos:["Diseñar un ritual de inicio de jornada breve (5 min) para prepararse emocionalmente para el día.", "Crear una señal o protocolo para que los agentes puedan hacer una pausa después de una llamada difícil.", "Organizar un intercambio informal entre Contact Center y Distribuidora para aprender qué hacen diferente."],
+    unidad:"Comercial", area:"Contact Center", variable:"E", resp:["TH","DC"], inicio:"Ago 2026", limite:"Sep 2026", estado:"Pendiente"
+  },
+  // COMERCIAL — SOSTENIMIENTO
+  {
+    id:"COM-02", prioridad:"Sostenimiento",
+    accion:"Documentar modelo de excelencia — Distribuidora",
+    descripcion:"IFO=8.46, PERMA=9.57: mayor florecimiento de toda la empresa (n=9). Capturar prácticas y convertirlas en modelo replicable.",
+    contexto:"Distribuidora es el equipo más feliz y comprometido de toda Disfarma. No es casualidad — hay algo en cómo está liderado, en cómo se relacionan entre sí y en cómo viven su trabajo que los hace diferentes. El objetivo no es tocarlos, sino aprender de ellos. Ese conocimiento es un activo organizacional que no debemos desperdiciar.",
+    pasos:["Organizar una sesión con el líder y el equipo de Distribuidora para explorar: ¿qué hacemos que nos hace sentirnos bien aquí?", "Convertir los hallazgos en una guía práctica de 'modelo de equipo saludable' para Disfarma.", "Presentar ese modelo a toda la organización como referente cultural, con el equipo de Distribuidora como protagonistas."],
+    unidad:"Comercial", area:"Distribuidora", variable:"IFP", resp:["DC","TH"], inicio:"Oct 2026", limite:"Nov 2026", estado:"Pendiente"
+  },
+
+  // LOGÍSTICA — URGENTES
+  {
+    id:"LOG-01", prioridad:"Urgente",
+    accion:"Diagnóstico urgente — Dirección Técnica Logística",
+    descripcion:"Mayor caída de Logística: PERMA 8.77→8.41 (−0.36). Investigar causas con el equipo: carga, estructura, liderazgo.",
+    contexto:"La Dirección Técnica de Logística tuvo la caída más grande dentro de su unidad: el bienestar general bajó casi cuatro décimas en un año. El año pasado estaban bien; este año hay una señal de alerta. Lo más importante ahora es entender qué cambió: ¿hubo cambios en el equipo?, ¿aumentó la carga de trabajo?, ¿hay algo con el liderazgo? Actuar sin diagnóstico sería un error.",
+    pasos:["Organizar una conversación abierta entre el líder de la Dirección Técnica y TH para explorar qué cambió en el último año.", "Revisar si hubo cambios estructurales, de personal o de cargas que puedan explicar la caída.", "Definir un plan de intervención específico basado en los hallazgos del diagnóstico (no intervención genérica)."],
+    unidad:"Logística", area:"Dirección Técnica", variable:"P", resp:["TH","DL"], inicio:"Jul 2026", limite:"Ago 2026", estado:"Pendiente"
+  },
+  {
+    id:"LOG-02", prioridad:"Urgente",
+    accion:"Plan 90 días — CDI Yumbo",
+    descripcion:"IFO=7.28, R=7.56 (vínculos deteriorados). Dinámicas de relaciones entre turnos, mesas de conversación, seguimiento mensual.",
+    contexto:"El CDI Yumbo tiene el segundo resultado más bajo entre todos los CDIs. El indicador que más preocupa es el de relaciones: las personas en Yumbo no tienen vínculos fuertes entre sí. En un centro de distribución donde se trabaja en turnos, esto es crítico: si las personas de turno noche y turno día no se conocen ni se comunican bien, los errores operativos aumentan y el sentido de equipo desaparece.",
+    pasos:["Mapear cuáles son los principales puntos de fricción entre turnos (operativos, comunicación, handover de tareas).", "Facilitar una actividad de integración entre personas de distintos turnos — no un 'team building' genérico, sino una conversación real sobre cómo se apoyan.", "Establecer una mesa de seguimiento mensual entre TH, el líder del CDI y representantes de cada turno."],
+    unidad:"Logística", area:"CDI Yumbo", variable:"R", resp:["TH","Li"], inicio:"Jul 2026", limite:"Sep 2026", estado:"Pendiente"
+  },
+  {
+    id:"LOG-03", prioridad:"Urgente",
+    accion:"Intervención urgente — CDI Monserrate",
+    descripcion:"CDI con IFO más bajo (7.08), R=7.43. Plan 90 días con coaching al líder local + intervención grupal. Meta IFP ≥ 7.40.",
+    contexto:"Monserrate es el CDI con el bienestar más bajo de toda la red logística. Los resultados de relaciones son bajos, y hay señales de que el ambiente de trabajo no está en buen estado. En un CDI, el líder local tiene una influencia enorme en el clima: si el liderazgo no está bien, el equipo lo resiente. Por eso la intervención tiene dos frentes: trabajar con el líder y trabajar con el equipo.",
+    pasos:["Iniciar un proceso de coaching personalizado con el líder del CDI Monserrate (mínimo 4 sesiones en 90 días).", "Facilitar una sesión grupal con el equipo para escuchar sus perspectivas y co-construir compromisos de mejora.", "Hacer seguimiento mensual con indicadores simples: ¿cómo está el ambiente?, ¿qué ha mejorado?, ¿qué necesitan?"],
+    unidad:"Logística", area:"CDI Monserrate", variable:"R", resp:["TH","Li","DL"], inicio:"Jul 2026", limite:"Sep 2026", estado:"Pendiente"
+  },
+  // LOGÍSTICA — IMPORTANTES
+  {
+    id:"LOG-04", prioridad:"Importante",
+    accion:"Sostener y reforzar mejora — Transporte",
+    descripcion:"Única mejora significativa de Logística: PERMA 8.06→8.24 (+0.18). Reconocer el avance y mantener puntos de contacto en campo.",
+    contexto:"Transporte fue el único área de Logística que mejoró este año, y es una señal muy positiva. Hay que celebrarlo y entender por qué mejoró, para que no se pierda. El riesgo es que si no se reconoce el avance, las personas sientan que nadie lo nota y la motivación puede bajar. Además, en campo (con conductores en ruta) el contacto humano es más difícil, por lo que hay que ser creativos en cómo se mantiene la conexión.",
+    pasos:["Reconocer explícitamente la mejora de Transporte ante el equipo y la dirección — nombrar el logro en voz alta.", "Establecer puntos de contacto periódicos con conductores y personal en campo (llamadas, visitas, mensajes de reconocimiento).", "Preguntar al equipo qué hicieron diferente este año que contribuyó a la mejora."],
+    unidad:"Logística", area:"Transporte", variable:"R", resp:["TH","Li"], inicio:"Ago 2026", limite:"Oct 2026", estado:"Pendiente"
+  },
+  {
+    id:"LOG-05", prioridad:"Importante",
+    accion:"Fortalecer relaciones — CDI Girón",
+    descripcion:"R=8.31 sólido pero requiere refuerzo entre turnos. Dinámicas de integración transturno. IFO=7.62.",
+    contexto:"El CDI Girón tiene buenos indicadores, pero en un CDI con múltiples turnos siempre existe el riesgo de que las personas de un turno no conozcan a las del otro. Las relaciones se miden entre todo el equipo, no solo dentro de cada turno. Fortalecer ese vínculo ahora, cuando los resultados son buenos, es mucho más fácil que hacerlo después de que haya un problema.",
+    pasos:["Diseñar al menos una actividad mensual que involucre a personas de todos los turnos (no solo reuniones operativas).", "Crear un canal de comunicación simple entre turnos para que haya continuidad en la información y en las relaciones.", "Revisar si el handover entre turnos es un momento de conexión o de tensión, y trabajar en mejorarlo."],
+    unidad:"Logística", area:"CDI Girón", variable:"R", resp:["TH","Li"], inicio:"Ago 2026", limite:"Sep 2026", estado:"Pendiente"
+  },
+  {
+    id:"LOG-06", prioridad:"Importante",
+    accion:"Acompañamiento individualizado — CDI Inversa",
+    descripcion:"Equipo especializado n=21, IFO=7.71. Plan 1:1 para mantener y mejorar indicadores dado el rol de logística inversa.",
+    contexto:"El CDI Inversa es un equipo pequeño con un rol muy especializado (logística de devoluciones). Por su tamaño, las intervenciones grupales genéricas no siempre funcionan bien — cada persona tiene un impacto importante en el resultado del equipo. Un acompañamiento más personalizado, que los conozca individualmente, es más efectivo que un taller masivo.",
+    pasos:["Realizar check-ins individuales breves (30 min) con cada colaborador del equipo para entender su experiencia actual.", "Identificar 2-3 oportunidades de mejora específicas para el equipo basadas en esas conversaciones.", "Mantener contacto regular con el líder del CDI para detectar cambios en el clima antes de que se conviertan en problemas."],
+    unidad:"Logística", area:"CDI Inversa", variable:"IFP", resp:["TH","Li"], inicio:"Ago 2026", limite:"Oct 2026", estado:"Pendiente"
+  },
+  // LOGÍSTICA — SOSTENIMIENTO
+  {
+    id:"LOG-07", prioridad:"Sostenimiento",
+    accion:"Replicar modelo — CDI Galapa",
+    descripcion:"Mejor CDI: IFO=7.83, PERMA=8.84. Documentar prácticas y transferir a CDI Yumbo y Monserrate como referente.",
+    contexto:"CDI Galapa es el mejor de todos los CDIs de la red logística. No solo tiene buenos números — tiene una manera de funcionar que genera bienestar genuino. Antes de que esas prácticas se pierdan (rotación de personal, cambios de liderazgo), hay que capturarlas. Y lo más inteligente es usar ese conocimiento para ayudar a los CDIs que más lo necesitan: Yumbo y Monserrate.",
+    pasos:["Visitar el CDI Galapa con TH y DL para observar y registrar sus prácticas de funcionamiento y liderazgo.", "Crear una ficha sencilla con las 5-7 prácticas clave que hacen diferente a Galapa.", "Compartir esa ficha con los líderes de Yumbo y Monserrate como insumo para sus planes de intervención."],
+    unidad:"Logística", area:"CDI Galapa", variable:"IFP", resp:["TH","DL"], inicio:"Oct 2026", limite:"Dic 2026", estado:"Pendiente"
+  },
+
+  // DISPENSACIÓN — URGENTES
+  {
+    id:"DISP-01", prioridad:"Urgente",
+    accion:"Coaching urgente — Líderes Dispensación",
+    descripcion:"Paradoja del cuidador: IFO=6.96, E=9.20 pero P=7.33. Alto riesgo de agotamiento. Coaching inmediato con énfasis en autocuidado emocional.",
+    contexto:"Los líderes de Dispensación son personas muy comprometidas — sus niveles de energía y dedicación son altísimos. Pero los datos muestran que están pagando un precio: sus emociones positivas son bajas, lo que es una señal temprana de agotamiento. Un líder agotado eventualmente afecta al equipo que lidera. Hay que actuar antes de que lleguen al límite, no después.",
+    pasos:["Iniciar un proceso de coaching individual para los líderes de Dispensación — al menos 3 sesiones antes de agosto.", "Crear un espacio grupal mensual donde los líderes puedan compartir sus propias dificultades sin juicio (comunidad de pares).", "Revisar con Gerencia las cargas de trabajo y responsabilidades de los líderes: ¿están asumiendo demasiado?"],
+    unidad:"Dispensación", area:"Líderes Dispensación", variable:"P", resp:["Ge","TH"], inicio:"Jul 2026", limite:"Ago 2026", estado:"Pendiente"
+  },
+  {
+    id:"DISP-02", prioridad:"Urgente",
+    accion:"Escucha individual — Administrativo Dispensación",
+    descripcion:"Área más baja de la unidad: IFO=6.87, P=7.08 (n=4). Intervención 1:1 inmediata para identificar causas.",
+    contexto:"El área Administrativa de Dispensación tiene los resultados más bajos de toda la unidad, y son solo 4 personas. Eso significa que, probablemente, todas o casi todas están pasando por algo difícil. Con grupos tan pequeños, la mejor intervención no es un programa o un taller — es sentarse con cada persona, escucharla con atención y entender qué está pasando realmente.",
+    pasos:["Programar esta misma semana una sesión 1:1 con cada una de las 4 personas del área.", "Usar una guía de escucha empática: sin juicios, sin promesas que no se puedan cumplir, con genuino interés.", "Consolidar hallazgos y definir un plan de apoyo específico para el área antes de que termine julio."],
+    unidad:"Dispensación", area:"Administrativo", variable:"P", resp:["TH","Li"], inicio:"Jul 2026", limite:"Jul 2026", estado:"Pendiente"
+  },
+  {
+    id:"DISP-03", prioridad:"Urgente",
+    accion:"Plan 90 días — Coordinación Cundinamarca",
+    descripcion:"Región más crítica: IFO=7.09, PERMA=8.33, R=7.96 (n=212). Plan co-diseñado con equipo local + seguimiento mensual.",
+    contexto:"Cundinamarca es la coordinación regional más grande y la que tiene los indicadores más bajos. 212 personas que, en su mayoría, trabajan en dispensación de medicamentos: un rol de alto impacto y alta presión. Lo que más preocupa es que sus relaciones y emociones positivas están por debajo del promedio. Un plan diseñado desde Bogotá y aplicado desde arriba no funcionará — necesita ser co-construido con las personas de allá.",
+    pasos:["Visitar Cundinamarca (presencial o virtual) en las próximas dos semanas para escuchar directamente al equipo y al líder.", "Co-diseñar con el equipo local un plan de 90 días que responda a sus realidades específicas.", "Establecer revisiones mensuales de seguimiento con indicadores simples que el equipo mismo pueda monitorear."],
+    unidad:"Dispensación", area:"Cundinamarca", variable:"P", resp:["TH","DD","Li"], inicio:"Jul 2026", limite:"Sep 2026", estado:"Pendiente"
+  },
+  {
+    id:"DISP-04", prioridad:"Urgente",
+    accion:"Diagnóstico Eje Cafetero — mayor caída regional",
+    descripcion:"Mayor caída regional: PERMA 9.14→8.59 (−0.55, n=204). Investigación urgente. Era la región más alta en 2025.",
+    contexto:"Eje Cafetero era la región con mejor bienestar en 2025, y este año fue la que más cayó. Eso no es una tendencia gradual — es un cambio significativo que ocurrió en un año. Algo pasó. Puede ser un cambio de liderazgo, una reestructuración, un momento difícil en la región, o algo en la operación. Antes de cualquier intervención, hay que entender qué ocurrió. Actuar sin diagnóstico sería un error costoso.",
+    pasos:["Hablar esta semana con el líder de la coordinación Eje Cafetero: ¿qué ha cambiado en el último año?", "Revisar si hubo cambios en el equipo, en la operación o en el contexto regional que puedan explicar la caída.", "Definir una intervención específica basada en las causas identificadas — no un programa genérico."],
+    unidad:"Dispensación", area:"Eje Cafetero", variable:"P", resp:["TH","DD"], inicio:"Jul 2026", limite:"Ago 2026", estado:"Pendiente"
+  },
+  {
+    id:"DISP-05", prioridad:"Urgente",
+    accion:"Coaching — Dir. Operativa Cuentas Médicas",
+    descripcion:"IFO=7.10, P=7.33 (n=4). Líderes en riesgo de agotamiento. Acompañamiento y coaching urgente al equipo directivo.",
+    contexto:"Los directivos operativos de Cuentas Médicas muestran los mismos síntomas que los líderes de Dispensación: mucha carga y poco bienestar personal. Son el motor del área, y si se apagan, el impacto sobre sus equipos es inmediato. Gerencia debe intervenir aquí — no TH solo. Es una señal que requiere atención del nivel más alto.",
+    pasos:["Gerencia se reúne personalmente con los directivos de Cuentas Médicas para reconocer su labor y escuchar sus necesidades.", "Iniciar un proceso de coaching ejecutivo con cada directivo: mínimo 3 sesiones antes de agosto.", "Revisar si la carga de trabajo y las expectativas sobre estos roles son razonables o requieren ajuste."],
+    unidad:"Dispensación", area:"Dir. Op. Cuentas Médicas", variable:"P", resp:["Ge","TH"], inicio:"Jul 2026", limite:"Ago 2026", estado:"Pendiente"
+  },
+  {
+    id:"DISP-06", prioridad:"Urgente",
+    accion:"Intervención RH 34 y RH 7 — Cuentas Médicas",
+    descripcion:"Subgrupos más bajos: RH 34 (PERMA=8.19, R=7.48, n=32) y RH 7 (PERMA=8.17, n=8). Plan diferenciado por subgrupo.",
+    contexto:"Dentro de Cuentas Médicas, los subgrupos RH 34 y RH 7 tienen los resultados más bajos. Lo más llamativo es que sus relaciones están deterioradas (R=7.48 en RH 34), lo que en un equipo que trabaja con auditorías y procesos de glosas puede significar tensiones internas serias. Cada subgrupo necesita una respuesta diferente porque sus contextos y tamaños son distintos.",
+    pasos:["Mapear con el líder de Cuentas Médicas qué caracteriza a cada subgrupo (rol, perfil, dinámicas).", "Diseñar una intervención diferenciada para RH 34 (equipo más grande, n=32) centrada en relaciones.", "Para RH 7 (n=8), hacer sesiones de escucha individuales similares a las del Administrativo de Dispensación."],
+    unidad:"Dispensación", area:"Cuentas Médicas", variable:"R", resp:["TH","Li"], inicio:"Jul 2026", limite:"Ago 2026", estado:"Pendiente"
+  },
+  // DISPENSACIÓN — IMPORTANTES
+  {
+    id:"DISP-07", prioridad:"Importante",
+    accion:"Visibilidad del rol — Convenios y Glosas",
+    descripcion:"Roles técnicos con baja visibilidad: Convenios IFO=7.25 (R=7.24), Glosas IFO=7.21 (P=7.44). Programa de reconocimiento interno.",
+    contexto:"Los equipos de Convenios y Glosas hacen un trabajo técnico y complejo que muy pocas personas en la organización entienden o reconocen. Sus indicadores de relaciones y emociones positivas están bajos, y es probable que parte de eso tenga que ver con sentir que su trabajo no es visible ni valorado. El reconocimiento no siempre es económico — muchas veces es simplemente que alguien importante en la organización diga 'lo que hacen aquí importa'.",
+    pasos:["Organizar una sesión donde estos equipos puedan mostrar a líderes y Gerencia qué hacen y cuál es su impacto.", "Crear un mecanismo simple de reconocimiento entre pares para estas áreas (un mensaje, una mención pública).", "Revisar si sus roles están bien descritos y valorados en la estructura organizacional."],
+    unidad:"Dispensación", area:"Convenios / Glosas", variable:"R", resp:["TH","Li"], inicio:"Ago 2026", limite:"Sep 2026", estado:"Pendiente"
+  },
+  {
+    id:"DISP-08", prioridad:"Importante",
+    accion:"Fortalecer relaciones — Coordinación Tolima",
+    descripcion:"R=8.18 sólido pero susceptible a deterioro (n=152). Puntos de contacto regulares con líderes locales.",
+    contexto:"Tolima tiene buenos resultados y 152 personas. El objetivo aquí no es intervenir porque algo esté mal, sino proteger lo que está bien. Las regiones medianas como esta a veces se sienten olvidadas — ni tienen los problemas que atraen atención, ni tienen los resultados tan buenos que se usan como ejemplo. Un contacto regular y genuino con el líder local es suficiente para mantener el rumbo.",
+    pasos:["Establecer una cadencia mensual de contacto entre TH y el líder de la coordinación Tolima (llamada o reunión virtual de 30 min).", "Preguntar en cada contacto: ¿qué está funcionando bien?, ¿qué podría mejorar?, ¿hay algo que necesiten de Bogotá?", "Incluir a Tolima en iniciativas transversales positivas para que no sienta que solo aparece cuando hay problemas."],
+    unidad:"Dispensación", area:"Tolima", variable:"R", resp:["TH","Li"], inicio:"Ago 2026", limite:"Oct 2026", estado:"Pendiente"
+  },
+  {
+    id:"DISP-09", prioridad:"Importante",
+    accion:"Capitalizar Engagement — Coordinación Santander",
+    descripcion:"E=9.03, el más alto de todas las regiones (n=253). Convertirlo en palanca de proyectos transversales y liderazgo.",
+    contexto:"Santander tiene el nivel de energía y compromiso más alto de todas las coordinaciones. Las personas allá aman lo que hacen. El reto es convertir esa energía en algo que también beneficie al resto de la organización: invitarlos a liderar proyectos, compartir sus prácticas, ser embajadores. Si no se capitaliza ese engagement, puede quedarse encerrado en la región sin generar valor más amplio.",
+    pasos:["Identificar 2-3 líderes informales o referentes positivos dentro de Santander para invitarlos a iniciativas transversales.", "Proponer que Santander lidere o co-lidere un proyecto de mejora que pueda replicarse en otras coordinaciones.", "Reconocer públicamente a Santander como región de alto compromiso — las personas necesitan saber que sus esfuerzos son vistos."],
+    unidad:"Dispensación", area:"Santander", variable:"E", resp:["TH","Li"], inicio:"Ago 2026", limite:"Oct 2026", estado:"Pendiente"
+  },
+  // DISPENSACIÓN — SOSTENIMIENTO
+  {
+    id:"DISP-10", prioridad:"Sostenimiento",
+    accion:"Sostener SIAU y Abastecimiento Dispensación",
+    descripcion:"Áreas más sanas: SIAU (IFO=7.69), Abastecimiento e Inv. (IFO=7.86). Documentar prácticas y proteger el clima.",
+    contexto:"SIAU y Abastecimiento e Inventarios son las áreas más sanas de la Dispensación interna. Tienen buenos resultados de manera consistente. El objetivo es no romper lo que funciona: evitar sobrecargarlos, mantener el contacto con sus líderes y capturar sus buenas prácticas antes de que un cambio de personal las haga desaparecer.",
+    pasos:["Realizar una conversación de 'mantenimiento' con los líderes de ambas áreas: ¿cómo están?, ¿qué necesitan para seguir bien?", "Documentar sus prácticas de funcionamiento en una ficha simple.", "Incluirlos en la red de embajadores de cultura IFO para que puedan compartir su experiencia."],
+    unidad:"Dispensación", area:"SIAU / Abastecimiento", variable:"IFP", resp:["TH","Li"], inicio:"Oct 2026", limite:"Dic 2026", estado:"Pendiente"
+  },
+  {
+    id:"DISP-11", prioridad:"Sostenimiento",
+    accion:"Regiones referentes — Costa y Valle",
+    descripcion:"Costa (IFO=7.65, PERMA=8.82) y Valle (IFO=7.64, PERMA=8.77) como modelos regionales. Transferir prácticas a regiones en intervención.",
+    contexto:"Costa y Valle son las coordinaciones regionales con mejor bienestar general. Tienen resultados consistentemente sólidos a pesar de ser zonas geográficamente complejas. Eso significa que sus líderes están haciendo algo bien. La pregunta es: ¿qué aprende Cundinamarca o Eje Cafetero de ellos? El conocimiento existe dentro de la organización — hay que movilizarlo.",
+    pasos:["Organizar un intercambio virtual entre líderes de Costa/Valle y los líderes de las regiones en intervención.", "Documentar prácticas de liderazgo y gestión de equipo en estas dos coordinaciones.", "Vincular a sus líderes como mentores informales de líderes en desarrollo en otras regiones."],
+    unidad:"Dispensación", area:"Costa / Valle", variable:"IFP", resp:["TH","DD"], inicio:"Oct 2026", limite:"Dic 2026", estado:"Pendiente"
+  },
+  {
+    id:"DISP-12", prioridad:"Sostenimiento",
+    accion:"Documentar referentes — RH 57 y RH 22",
+    descripcion:"RH 57 (PERMA=8.70) y RH 22 (R=8.64) como referentes de Cuentas Médicas. Transferir prácticas a RH 34 y RH 7.",
+    contexto:"Dentro de Cuentas Médicas, que en general tiene indicadores más bajos, RH 57 y RH 22 sobresalen positivamente. Son equipos pequeños que trabajan bien juntos y tienen buenos resultados. Entender por qué — y usar ese conocimiento para ayudar a RH 34 y RH 7 — es más efectivo que traer soluciones externas que nadie entiende ni adopta.",
+    pasos:["Conversar con los líderes de RH 57 y RH 22 para entender qué hacen diferente en su gestión de equipo.", "Facilitar un intercambio informal entre los equipos de referencia y los equipos en intervención.", "Usar los hallazgos como insumo concreto para el plan de mejora de RH 34 y RH 7."],
+    unidad:"Dispensación", area:"Cuentas Médicas", variable:"IFP", resp:["TH","Li"], inicio:"Oct 2026", limite:"Dic 2026", estado:"Pendiente"
+  },
+
+  // TRANSVERSALES
+  {
+    id:"TRV-01", prioridad:"Urgente",
+    accion:"Campaña organizacional — Relaciones (R)",
+    descripcion:"R fue la mayor caída (8.81→8.28, −0.53). Campaña interna: reconocimiento entre pares, redes internas, eventos de integración.",
+    contexto:"Las Relaciones fueron la dimensión que más bajó en toda Disfarma este año — y lo hizo en casi todas las unidades. Eso no es un problema de un área: es una señal de algo que está pasando a nivel organizacional. Las personas se sienten menos conectadas entre sí. En un contexto post-pandemia y con equipos distribuidos geográficamente, esto no es sorprendente, pero sí urgente. La organización necesita recordarle a su gente que trabajan juntas hacia algo común.",
+    pasos:["Diseñar una campaña interna de reconocimiento entre pares: que las personas puedan agradecer y reconocer a colegas de forma visible.", "Crear o revitalizar espacios de integración que crucen áreas y unidades (no solo actividades dentro del mismo equipo).", "Comunicar a toda la organización los resultados del IFO y el plan de acción — la transparencia genera confianza y conexión."],
+    unidad:"Transversal", area:"Todas las unidades", variable:"R", resp:["TH","Ge"], inicio:"Jul 2026", limite:"Sep 2026", estado:"Pendiente"
+  },
+  {
+    id:"TRV-02", prioridad:"Importante",
+    accion:"Plan de carrera — Contratos Temporales",
+    descripcion:"783 colaboradores Temporal Gente Útil. Diseñar ruta de crecimiento profesional con visión de largo plazo.",
+    contexto:"Hay 783 personas en Disfarma con contrato temporal. Sus indicadores de bienestar son buenos, pero tienen un puntaje un poco más bajo en Logro — la dimensión relacionada con sentir que están creciendo y avanzando. Es natural: si no sé si seguiré aquí el año que viene, es difícil sentir que estoy construyendo algo. Darles una ruta de crecimiento clara, aunque sea dentro de la temporalidad, puede cambiar esa percepción.",
+    pasos:["Mapear qué oportunidades de desarrollo existen dentro de Disfarma para colaboradores temporales (formación, ascensos, conversión a planta).", "Diseñar una 'ruta de carrera temporal' simple: etapas de crecimiento con criterios claros y visibles.", "Comunicarla a los 783 colaboradores de manera directa y transparente — que sepan que la empresa tiene un plan para ellos."],
+    unidad:"Transversal", area:"Contrato Temporal", variable:"A", resp:["TH","Ge"], inicio:"Ago 2026", limite:"Oct 2026", estado:"Pendiente"
+  },
+  {
+    id:"TRV-03", prioridad:"Importante",
+    accion:"Regulación emocional — Generación Z",
+    descripcion:"Gen Z (n=1337) tiene mayor fricción organizacional (EST=8.18 vs Gen X=7.88). Workshops de biofeedback y regulación para menores de 28 años.",
+    contexto:"La Generación Z — los menores de 28 años — es la generación más numerosa en Disfarma (1337 personas) y la que más fricción percibe en el entorno de trabajo. No es que no quieran trabajar: es que están viviendo más estrés e irritabilidad que las generaciones anteriores. Las herramientas de regulación emocional son especialmente útiles para ellos porque les permiten manejar mejor las situaciones difíciles del día a día sin que los afecten tanto.",
+    pasos:["Diseñar un taller de regulación emocional adaptado al lenguaje y realidades de la Gen Z (dinámico, práctico, sin moralizar).", "Incluir técnicas concretas de manejo de la irritabilidad y el estrés que puedan aplicar en el trabajo inmediatamente.", "Facilitar el taller en formatos accesibles para equipos distribuidos (virtual o presencial según la región)."],
+    unidad:"Transversal", area:"Generación Z", variable:"E", resp:["TH"], inicio:"Ago 2026", limite:"Oct 2026", estado:"Pendiente"
+  },
+  {
+    id:"TRV-04", prioridad:"Importante",
+    accion:"Mentoría intergeneracional — BB → Gen Z",
+    descripcion:"Baby Boomers (IFP=8.11) comparten experiencia con Gen Z como soporte relacional y de sentido en el trabajo.",
+    contexto:"Los Baby Boomers de Disfarma (los colaboradores de más de 55 años) tienen el mayor florecimiento de todas las generaciones. Han aprendido a encontrar sentido y calma en el trabajo a través de años de experiencia. Y la Gen Z, que es la generación más joven, es la que más estrés tiene y la que más busca propósito. Conectarlos no solo beneficia a los jóvenes — los mayores también ganan: sienten que su experiencia importa y que están dejando un legado.",
+    pasos:["Identificar a los colaboradores Baby Boomers dispuestos a participar como mentores voluntarios.", "Diseñar un esquema simple de mentoría: encuentros mensuales de 1 hora con un perfil joven asignado.", "Lanzar el programa con una sesión de presentación donde los mentores compartan su historia en Disfarma."],
+    unidad:"Transversal", area:"Baby Boomers / Gen Z", variable:"R", resp:["TH"], inicio:"Ago 2026", limite:"Nov 2026", estado:"Pendiente"
+  },
+  {
+    id:"TRV-05", prioridad:"Sostenimiento",
+    accion:"Embajadores de cultura IFO — Disfarma",
+    descripcion:"Formar embajadores en áreas de alto PERMA (Distribuidora, Seguridad, CDI Galapa, Costa, Valle). Referentes culturales del florecimiento.",
+    contexto:"A lo largo de Disfarma hay personas y equipos que naturalmente irradian bienestar, compromiso y buen clima. Son los que los demás miran como ejemplo. El programa de embajadores los hace visibles y les da un rol formal: no como fiscales del bienestar, sino como compañeros que muestran que es posible trabajar bien y florecer. El cambio cultural no viene de los programas de TH — viene de las personas que lo viven.",
+    pasos:["Identificar en cada unidad a 1-2 personas con alto PERMA y buena reputación entre sus pares como candidatos a embajadores.", "Diseñar un proceso de formación sencillo: qué significa ser embajador, cuál es su rol y cómo los apoya TH.", "Lanzar el programa en el último trimestre con un evento de reconocimiento que los visibilice ante toda la organización."],
+    unidad:"Transversal", area:"Todas las unidades", variable:"IFP", resp:["TH","Ge"], inicio:"Oct 2026", limite:"Dic 2026", estado:"Pendiente"
+  },
+];
+
+// ── STATE ──────────────────────────────────────────────────────────────────────
+const STORAGE_KEY = 'disfarma_plan_2026_estados';
+let estados = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+acciones.forEach(a => { if (!estados[a.id]) estados[a.id] = a.estado; });
+function saveEstados() { localStorage.setItem(STORAGE_KEY, JSON.stringify(estados)); }
+function getEstado(id) { return estados[id] || 'Pendiente'; }
+
+let filterPrioridad = 'Todas';
+let filterUnidad = 'Todas';
+let currentView = 'tabla';
+
+function getFiltered() {
+  return acciones.filter(a => {
+    if (filterPrioridad !== 'Todas' && a.prioridad !== filterPrioridad) return false;
+    if (filterUnidad !== 'Todas' && a.unidad !== filterUnidad) return false;
+    return true;
+  });
+}
+
+// ── GUÍA TOGGLE ───────────────────────────────────────────────────────────────
+function toggleGuia() {
+  const toggle = document.getElementById('guia-toggle');
+  const body = document.getElementById('guia-body');
+  const chevron = document.getElementById('guia-chevron');
+  const open = toggle.classList.toggle('open');
+  body.classList.toggle('open', open);
+  chevron.textContent = open ? '▲' : '▼';
+}
+
+// ── DETALLE TOGGLE ────────────────────────────────────────────────────────────
+function toggleDetalle() {
+  const el = document.getElementById('modal-detalle');
+  const ch = document.getElementById('detalle-chevron');
+  const open = el.style.display === 'none';
+  el.style.display = open ? 'block' : 'none';
+  ch.textContent = open ? '▲' : '▼';
+}
+
+// ── KPI ───────────────────────────────────────────────────────────────────────
+function updateKPIs() {
+  document.getElementById('kpi-total').textContent = acciones.length;
+  document.getElementById('chip-total').innerHTML = `<strong>${acciones.length}</strong> acciones`;
+  document.getElementById('kpi-urgentes').textContent = acciones.filter(a => a.prioridad === 'Urgente').length;
+  document.getElementById('kpi-importantes').textContent = acciones.filter(a => a.prioridad === 'Importante').length;
+  document.getElementById('kpi-sost').textContent = acciones.filter(a => a.prioridad === 'Sostenimiento').length;
+  document.getElementById('kpi-encurso').textContent = acciones.filter(a => getEstado(a.id) === 'En curso').length;
+  document.getElementById('kpi-comp').textContent = acciones.filter(a => getEstado(a.id) === 'Completado').length;
+  document.getElementById('fecha-hoy').textContent = new Date().toLocaleDateString('es-CO', {day:'numeric', month:'short', year:'numeric'});
+}
+
+// ── CHARTS ────────────────────────────────────────────────────────────────────
+let donutChart, barChart, focoChart;
+
+function initCharts() {
+  const estadoColors = { 'Pendiente': '#F0C040', 'En curso': '#1A7D8E', 'Completado': '#1B6E3C', 'Bloqueado': '#B03020' };
+  const estadoCounts = {};
+  acciones.forEach(a => { const e = getEstado(a.id); estadoCounts[e] = (estadoCounts[e] || 0) + 1; });
+  const donutLabels = Object.keys(estadoCounts);
+  const donutData = donutLabels.map(k => estadoCounts[k]);
+  const donutColors = donutLabels.map(k => estadoColors[k] || '#999');
+
+  donutChart = new Chart(document.getElementById('donutChart'), {
+    type: 'doughnut',
+    data: { labels: donutLabels, datasets: [{ data: donutData, backgroundColor: donutColors, borderWidth: 2, borderColor: '#fff' }] },
+    options: { responsive: true, cutout: '62%', plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw}` } } } }
+  });
+  const legendEl = document.getElementById('donut-legend');
+  legendEl.innerHTML = donutLabels.map((l,i) =>
+    `<span class="legend-item"><span class="legend-dot" style="background:${donutColors[i]}"></span>${l} (${donutData[i]})</span>`
+  ).join('');
+
+  const unidades = ['Administrativa','Comercial','Logística','Dispensación','Transversal'];
+  const prioridades = ['Urgente','Importante','Sostenimiento'];
+  const priorColors = ['#C0392B', '#C17F00', '#1B6E3C'];
+  barChart = new Chart(document.getElementById('barChart'), {
+    type: 'bar',
+    data: {
+      labels: unidades,
+      datasets: prioridades.map((p, i) => ({
+        label: p, data: unidades.map(u => acciones.filter(a => a.unidad === u && a.prioridad === p).length),
+        backgroundColor: priorColors[i], borderRadius: 4,
+      }))
+    },
+    options: {
+      responsive: true, maintainAspectRatio: true,
+      scales: { x: { stacked: true, grid: { display: false }, ticks: { font: { size: 11 } } }, y: { stacked: true, grid: { color: '#EEE' }, ticks: { stepSize: 1, font: { size: 11 } } } },
+      plugins: { legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 10, boxWidth: 12 } } }
+    }
+  });
+
+  const focos = ['Relaciones', 'Positividad & Liderazgo', 'Bienestar Emocional', 'Diagnóstico', 'Logro & Sentido', 'Replicar Modelos', 'Transversal'];
+  const focoCounts = { 'Relaciones':0,'Positividad & Liderazgo':0,'Bienestar Emocional':0,'Diagnóstico':0,'Logro & Sentido':0,'Replicar Modelos':0,'Transversal':0 };
+  const varToFoco = { R:'Relaciones', P:'Positividad & Liderazgo', E:'Bienestar Emocional', A:'Logro & Sentido', M:'Logro & Sentido', IFP:'Replicar Modelos' };
+  acciones.forEach(a => {
+    if (a.accion.toLowerCase().includes('diagnóstico')) focoCounts['Diagnóstico']++;
+    else focoCounts[varToFoco[a.variable] || 'Transversal']++;
+  });
+  focoChart = new Chart(document.getElementById('focoChart'), {
+    type: 'bar',
+    data: { labels: focos, datasets: [{ data: focos.map(f => focoCounts[f]), backgroundColor: ['#1A7D8E','#0D3B5E','#6B4FA0','#B03020','#C17F00','#1B6E3C','#8A6000'], borderRadius: 4 }] },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: true,
+      scales: { x: { grid: { color: '#EEE' }, ticks: { stepSize: 1, font: { size: 11 } } }, y: { grid: { display: false }, ticks: { font: { size: 11 } } } },
+      plugins: { legend: { display: false } }
+    }
+  });
+}
+
+function refreshCharts() {
+  const estadoColors = { 'Pendiente': '#F0C040', 'En curso': '#1A7D8E', 'Completado': '#1B6E3C', 'Bloqueado': '#B03020' };
+  const estadoCounts = {};
+  acciones.forEach(a => { const e = getEstado(a.id); estadoCounts[e] = (estadoCounts[e] || 0) + 1; });
+  const labels = ['Pendiente','En curso','Completado','Bloqueado'];
+  donutChart.data.datasets[0].data = labels.map(k => estadoCounts[k] || 0);
+  donutChart.update();
+  document.getElementById('donut-legend').innerHTML = labels.filter(l => estadoCounts[l]).map(l =>
+    `<span class="legend-item"><span class="legend-dot" style="background:${estadoColors[l]}"></span>${l} (${estadoCounts[l]||0})</span>`
+  ).join('');
+}
+
+// ── PROGRESS ──────────────────────────────────────────────────────────────────
+function renderProgress() {
+  const unidades = ['Administrativa','Comercial','Logística','Dispensación','Transversal'];
+  const uColors = ['#0D3B5E','#1A4A8E','#1A7D8E','#6B3FA0','#8A6000'];
+  document.getElementById('progress-rows').innerHTML = unidades.map((u, i) => {
+    const total = acciones.filter(a => a.unidad === u).length;
+    const comp = acciones.filter(a => a.unidad === u && getEstado(a.id) === 'Completado').length;
+    const pct = total ? Math.round(comp / total * 100) : 0;
+    return `<div class="progress-row">
+      <div class="progress-label">${u}</div>
+      <div class="progress-bar-wrap"><div class="progress-bar" style="width:${pct}%;background:${uColors[i]}"></div></div>
+      <div class="progress-pct">${pct}%</div>
+      <div class="progress-count">${comp}/${total} acciones</div>
+    </div>`;
+  }).join('');
+}
+
+// ── BADGES ────────────────────────────────────────────────────────────────────
+function priorBadge(p) {
+  const icons = { Urgente:'🔴', Importante:'🟡', Sostenimiento:'🟢' };
+  return `<span class="prior-badge prior-${p}">${icons[p]||''} ${p}</span>`;
+}
+function estadoBadge(id) {
+  const e = getEstado(id);
+  const cls = e.replace(' ','');
+  const icons = { 'Pendiente':'⏳', 'En curso':'▶', 'Completado':'✓', 'Bloqueado':'✕' };
+  return `<span class="estado-badge est-${cls}" onclick="event.stopPropagation();openModal('${id}')">${icons[e]||''} ${e}</span>`;
+}
+function respTags(resp) {
+  return `<div class="resp-tags">${resp.map(r => `<span class="resp-tag">${r}</span>`).join('')}</div>`;
+}
+
+// ── TABLE ─────────────────────────────────────────────────────────────────────
+function renderTabla() {
+  const filtered = getFiltered();
+  document.getElementById('results-count').textContent = filtered.length;
+  document.getElementById('tabla-body').innerHTML = filtered.map(a => `
+    <tr onclick="openModal('${a.id}')" style="cursor:pointer;">
+      <td class="id-cell">${a.id}</td>
+      <td>${priorBadge(a.prioridad)}</td>
+      <td>
+        <div class="accion-name">${a.accion}</div>
+        <div class="accion-desc">${a.contexto.substring(0,110)}…</div>
+      </td>
+      <td>
+        <span class="unidad-badge u-${a.unidad}">${a.unidad}</span>
+        <div style="font-size:11px;color:#666;margin-top:3px;">${a.area}</div>
+      </td>
+      <td><span class="var-badge">${a.variable}</span></td>
+      <td>${respTags(a.resp)}</td>
+      <td class="date-cell">${a.inicio}</td>
+      <td class="date-cell">${a.limite}</td>
+      <td>${estadoBadge(a.id)}</td>
+    </tr>
+  `).join('');
+}
+
+// ── KANBAN ────────────────────────────────────────────────────────────────────
+function renderKanban() {
+  const filtered = getFiltered();
+  const cols = { Urgente:'kanban-urgente', Importante:'kanban-importante', Sostenimiento:'kanban-sost' };
+  const counts = { Urgente:0, Importante:0, Sostenimiento:0 };
+  Object.values(cols).forEach(id => document.getElementById(id).innerHTML = '');
+  filtered.forEach(a => {
+    counts[a.prioridad]++;
+    const card = document.createElement('div');
+    card.className = 'kanban-card';
+    card.style.cursor = 'pointer';
+    card.onclick = () => openModal(a.id);
+    card.innerHTML = `
+      <div class="kanban-card-id">${a.id}</div>
+      <div class="kanban-card-name">${a.accion}</div>
+      <div class="kanban-card-contexto">${a.contexto.substring(0,90)}…</div>
+      <div class="kanban-card-meta">
+        <span class="unidad-badge u-${a.unidad}" style="font-size:10px;">${a.unidad}</span>
+        <span class="var-badge">${a.variable}</span>
+        ${estadoBadge(a.id)}
+      </div>`;
+    document.getElementById(cols[a.prioridad]).appendChild(card);
+  });
+  ['Urgente','Importante','Sostenimiento'].forEach(p => {
+    const el = { Urgente:'k-urgente-count', Importante:'k-importante-count', Sostenimiento:'k-sost-count' }[p];
+    document.getElementById(el).textContent = counts[p];
+  });
+  document.getElementById('results-count').textContent = filtered.length;
+}
+
+// ── VIEW ──────────────────────────────────────────────────────────────────────
+function setView(v) {
+  currentView = v;
+  document.getElementById('tabla-view').style.display = v === 'tabla' ? 'block' : 'none';
+  document.getElementById('kanban-view').style.display = v === 'kanban' ? 'block' : 'none';
+  document.getElementById('btn-tabla').className = 'view-btn' + (v==='tabla' ? ' active' : '');
+  document.getElementById('btn-kanban').className = 'view-btn' + (v==='kanban' ? ' active' : '');
+  render();
+}
+
+function render() {
+  if (currentView === 'tabla') renderTabla();
+  else renderKanban();
+  updateKPIs();
+  renderProgress();
+  refreshCharts();
+}
+
+// ── MODAL ─────────────────────────────────────────────────────────────────────
+function openModal(id) {
+  const a = acciones.find(x => x.id === id);
+  if (!a) return;
+  document.getElementById('m-id').textContent = `${a.id} · ${a.unidad} · ${a.area}`;
+  document.getElementById('m-title').textContent = a.accion;
+  document.getElementById('m-contexto').textContent = a.contexto;
+  document.getElementById('m-desc').textContent = a.descripcion;
+  document.getElementById('m-unidad').textContent = a.unidad;
+  document.getElementById('m-area').textContent = a.area;
+  document.getElementById('m-var').textContent = a.variable;
+  document.getElementById('m-resp').textContent = a.resp.join(', ');
+  document.getElementById('m-inicio').textContent = a.inicio;
+  document.getElementById('m-limite').textContent = a.limite;
+  document.getElementById('m-pasos').innerHTML = a.pasos.map((p, i) =>
+    `<div class="paso-item"><span class="paso-num">${i+1}</span><span class="paso-text">${p}</span></div>`
+  ).join('');
+  document.getElementById('modal-detalle').style.display = 'none';
+  document.getElementById('detalle-chevron').textContent = '▼';
+  renderEstadoOpts(id);
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
+function renderEstadoOpts(id) {
+  const curr = getEstado(id);
+  document.getElementById('m-estado-opts').innerHTML = ['Pendiente','En curso','Completado','Bloqueado'].map(o =>
+    `<button class="estado-opt ${curr===o?'sel-'+o:''}" onclick="setEstado('${id}','${o}')">${o}</button>`
+  ).join('');
+}
+function setEstado(id, estado) {
+  estados[id] = estado;
+  saveEstados();
+  renderEstadoOpts(id);
+  render();
+}
+
+// ── FILTERS ───────────────────────────────────────────────────────────────────
+document.querySelectorAll('[data-filter-type]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const type = btn.dataset.filterType;
+    const val = btn.dataset.filterVal;
+    if (type === 'prioridad') { filterPrioridad = val; document.querySelectorAll('[data-filter-type="prioridad"]').forEach(b => b.classList.toggle('active', b.dataset.filterVal===val)); }
+    else { filterUnidad = val; document.querySelectorAll('[data-filter-type="unidad"]').forEach(b => b.classList.toggle('active', b.dataset.filterVal===val)); }
+    render();
+  });
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+initCharts();
+render();
+</script>
+</body>
+</html>
